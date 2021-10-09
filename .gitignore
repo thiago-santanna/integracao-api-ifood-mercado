@@ -1,4 +1,4 @@
-./src/resources/application-dev.properties
+/src/**/resources/application-prod.properties
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar

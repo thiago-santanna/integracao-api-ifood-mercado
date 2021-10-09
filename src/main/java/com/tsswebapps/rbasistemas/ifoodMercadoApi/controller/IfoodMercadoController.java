@@ -1,4 +1,4 @@
-package com.tsswebapps.rbasistemas.mercadoApi.controller;
+package com.tsswebapps.rbasistemas.ifoodMercadoApi.controller;
 
 import java.io.IOException;
 
@@ -9,22 +9,26 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tsswebapps.rbasistemas.mercadoApi.dto.TokenDto;
-import com.tsswebapps.rbasistemas.mercadoApi.models.Token;
-import com.tsswebapps.rbasistemas.mercadoApi.service.TokenService;
+import com.tsswebapps.rbasistemas.ifoodMercadoApi.dto.TokenDto;
+import com.tsswebapps.rbasistemas.ifoodMercadoApi.models.Token;
+import com.tsswebapps.rbasistemas.ifoodMercadoApi.service.IfoodMercadoService;
 
 @RestController
-@RequestMapping("/ifood-mercado/token")
-public class TokenController {
+@RequestMapping("/ifood-mercado")
+public class IfoodMercadoController {
 	
 	@Autowired
-	private TokenService tokenService;
+	private IfoodMercadoService ifoodMercadoService;
 	
-	@PostMapping
+	@PostMapping("/token")
 	public ResponseEntity<Token> getToken(@RequestBody TokenDto credenciais) throws IOException {
-		Token token = tokenService.getToken(credenciais);
+		Token token = ifoodMercadoService.getToken(credenciais);
 		return ResponseEntity.ok(token);
 
+	}
+	
+	public void consultaEventos(){
+		
 	}
 
 }

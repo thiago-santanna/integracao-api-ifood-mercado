@@ -1,4 +1,4 @@
-package com.tsswebapps.rbasistemas.mercadoApi.dto;
+package com.tsswebapps.rbasistemas.ifoodMercadoApi.dto;
 
 import javax.validation.constraints.NotBlank;
 

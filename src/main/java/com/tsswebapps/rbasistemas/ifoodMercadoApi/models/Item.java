@@ -1,4 +1,4 @@
-package com.tsswebapps.rbasistemas.mercadoApi.models;
+package com.tsswebapps.rbasistemas.ifoodMercadoApi.models;
 
 import java.math.BigDecimal;
 
