@@ -4,12 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import com.tsswebapps.rbasistemas.mercadoApi.dto.TokenDto;
 import com.tsswebapps.rbasistemas.mercadoApi.models.Token;
+
+import reactor.core.publisher.Mono;
 
 @Service
 public class TokenService {
@@ -17,24 +17,14 @@ public class TokenService {
 	@Autowired
 	private WebClient webClientMercado;
 	
-	public Token getToken(String client_id, String client_secret) {
-		MultiValueMap<String, String> credentials = new LinkedMultiValueMap<>();
+	public Token getToken(TokenDto credenciais) {	
+		Mono<Token> monoToken = this.webClientMercado .method(HttpMethod.POST)
+				  .uri("oauth/token") .contentType(MediaType.APPLICATION_JSON)
+				  .body(Mono.just(credenciais), TokenDto.class) 
+				  .retrieve()
+				  .bodyToMono(Token.class);
 		
-		credentials.add("client_id", client_id);
-		credentials.add("client_secret", client_secret);
-		
-		Token token = this.webClientMercado
-				.method(HttpMethod.POST)
-				.uri("oauth/token")
-				.contentType(MediaType.APPLICATION_JSON)
-				.body(BodyInserters.fromFormData(credentials))
-				.retrieve()
-				.bodyToMono(Token.class)
-				.block();
-		
-		System.out.println(token);
-		
-		return token;
+		return monoToken.block();
 	}
 
 }
