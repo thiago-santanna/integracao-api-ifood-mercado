@@ -1,4 +1,4 @@
-package com.tsswebapps.rbasistemas;
+package com.sigma.ifood;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

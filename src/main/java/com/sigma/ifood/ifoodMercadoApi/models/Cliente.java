@@ -1,9 +1,9 @@
-package com.tsswebapps.rbasistemas.ifoodMercadoApi.models;
+package com.sigma.ifood.ifoodMercadoApi.models;
+
+import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import lombok.Data;
 
 @Data
 public class Cliente {

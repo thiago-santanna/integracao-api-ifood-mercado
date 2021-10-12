@@ -1,8 +1,8 @@
-package com.tsswebapps.rbasistemas.ifoodMercadoApi.models;
-
-import java.math.BigDecimal;
+package com.sigma.ifood.ifoodMercadoApi.models;
 
 import lombok.Data;
+
+import java.math.BigDecimal;
 
 @Data
 public class EnderecoEntrega {

@@ -1,29 +1,30 @@
-package com.tsswebapps.rbasistemas.ifoodMercadoApi.service;
+package com.sigma.ifood.ifoodMercadoApi.service;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sigma.ifood.ifoodMercadoApi.dto.TokenDto;
+import com.sigma.ifood.ifoodMercadoApi.models.Token;
+import com.sigma.ifood.ifoodMercadoApi.models.Events;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tsswebapps.rbasistemas.ifoodMercadoApi.dto.TokenDto;
-import com.tsswebapps.rbasistemas.ifoodMercadoApi.models.Events;
-import com.tsswebapps.rbasistemas.ifoodMercadoApi.models.Token;
-
 import reactor.core.publisher.Mono;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class IfoodMercadoService {
 	
 	@Autowired
 	private WebClient webClientMercado;
-	
-	public Token getToken(TokenDto credenciais) {	
+
+	private static List<Token> tokensAtivos = new ArrayList();
+		
+	public Token getToken(TokenDto credenciais) {
 		Mono<Token> monoToken = this.webClientMercado
 				.method(HttpMethod.POST)
 				.uri("oauth/token")
@@ -35,11 +36,11 @@ public class IfoodMercadoService {
 		return monoToken.block();
 	}
 	
-	public List<Events> getEventos() {
+	public List<Events> getEventos(String accessToken) {
 		Mono<Object[]> monoEventos = this.webClientMercado
 				.method(HttpMethod.GET)
 				.uri("pedido/eventos")
-				.header("Authorization", "")
+				.header("Authorization", accessToken)
 				.retrieve()
 				.bodyToMono(Object[].class)
 				.log();

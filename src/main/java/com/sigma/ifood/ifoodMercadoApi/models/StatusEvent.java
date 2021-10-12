@@ -1,4 +1,4 @@
-package com.tsswebapps.rbasistemas.ifoodMercadoApi.models;
+package com.sigma.ifood.ifoodMercadoApi.models;
 
 public enum StatusEvent {
 	CAN,
