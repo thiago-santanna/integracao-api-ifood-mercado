@@ -60,9 +60,9 @@ class Runner implements ApplicationRunner{
 			public void run() {
 				ConfigApp configApp = configAppService.buscar(1L);
 				LocalDateTime expireIn = configApp.getExpireIn();
-				boolean tokenValido = configAppService.tokenValido(expireIn);
+				String tokenOperation = configApp.getToken();
 
-				/*if (!tokenValido){
+				if (!configAppService.tokenValido(expireIn)){
 					Token token = ifoodMercadoService.getToken(
 							new TokenDto(
 									configApp.getClientIdIfoodMercado(),
@@ -70,11 +70,12 @@ class Runner implements ApplicationRunner{
 							));
 					tokenOperation = token.getToken_type() + " " + token.getAccess_token();
 					expireIn = LocalDateTime.now().plusSeconds(Long.parseLong(token.getExpires_in()));
-				}*/
+				}
 
 				System.out.println("Task performed on " + new Date());
 				System.out.println(configApp.getClientIdIfoodMercado());
-				System.out.println(tokenValido);
+				System.out.println(tokenOperation);
+				System.out.println(expireIn);
 			}
 		};
 
