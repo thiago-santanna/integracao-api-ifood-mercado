@@ -1,12 +1,14 @@
 package com.sigma.ifood.domain.models;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity(name = "config_app")
 @Data
+@Entity()
+@Table(name = "config_app")
 public class ConfigApp {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,4 +19,6 @@ public class ConfigApp {
     private String token;
     private LocalDateTime expireIn;
     private Long intervaloConsulta;
+
+    public ConfigApp(){}
 }

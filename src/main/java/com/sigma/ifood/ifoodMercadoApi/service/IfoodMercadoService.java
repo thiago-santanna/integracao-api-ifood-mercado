@@ -22,7 +22,6 @@ public class IfoodMercadoService {
 	@Autowired
 	private WebClient webClientMercado;
 
-	private static List<Token> tokensAtivos = new ArrayList();
 		
 	public Token getToken(TokenDto credenciais) {
 		Mono<Token> monoToken = this.webClientMercado
@@ -36,7 +35,7 @@ public class IfoodMercadoService {
 		return monoToken.block();
 	}
 	
-	public List<Events> getEventos(String accessToken) {
+	public void getEventos(String accessToken) {
 		Mono<Object[]> monoEventos = this.webClientMercado
 				.method(HttpMethod.GET)
 				.uri("pedido/eventos")
@@ -47,11 +46,11 @@ public class IfoodMercadoService {
 		
 		Object[] eventos = monoEventos.block();
 		
-		ObjectMapper mapper = new ObjectMapper();
+/*		ObjectMapper mapper = new ObjectMapper();
 		
 		return Arrays.stream(eventos)
 				  .map(object -> mapper.convertValue(object, Events.class))
-				  .collect(Collectors.toList());
+				  .collect(Collectors.toList());*/
 	}
 
 }

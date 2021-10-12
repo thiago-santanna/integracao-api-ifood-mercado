@@ -2,6 +2,9 @@ package com.sigma.ifood;
 
 import com.sigma.ifood.domain.models.ConfigApp;
 import com.sigma.ifood.domain.service.ConfigAppService;
+import com.sigma.ifood.ifoodMercadoApi.dto.TokenDto;
+import com.sigma.ifood.ifoodMercadoApi.models.Token;
+import com.sigma.ifood.ifoodMercadoApi.service.IfoodMercadoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -11,6 +14,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -40,29 +44,41 @@ class Runner implements ApplicationRunner{
 	@Autowired
 	private ConfigAppService configAppService;
 
+	@Autowired
+	private IfoodMercadoService ifoodMercadoService;
+
 	// Aqui vou disparar o serviço de consultar dados na api do ifood Mercado
 	// se novo token Vou salvar no bancode dados
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
-		ConfigApp configApp = configAppService.buscar(1L);
-		boolean tokenValido = configAppService.tokenValido(configApp.getExpireIn());
-		long configPeriod = configApp.getIntervaloConsulta();
+		Long period = configAppService.buscarIntervalo(1L);
+		Long delayInit = 1000L;
 
 		TimerTask serviceFindInformationTask = new TimerTask() {
 			@Override
 			public void run() {
+				ConfigApp configApp = configAppService.buscar(1L);
+				LocalDateTime expireIn = configApp.getExpireIn();
+				boolean tokenValido = configAppService.tokenValido(expireIn);
+
+				/*if (!tokenValido){
+					Token token = ifoodMercadoService.getToken(
+							new TokenDto(
+									configApp.getClientIdIfoodMercado(),
+									configApp.getClientSecretIfoodMercado()
+							));
+					tokenOperation = token.getToken_type() + " " + token.getAccess_token();
+					expireIn = LocalDateTime.now().plusSeconds(Long.parseLong(token.getExpires_in()));
+				}*/
+
 				System.out.println("Task performed on " + new Date());
-				System.out.println(tokenValido);
 				System.out.println(configApp.getClientIdIfoodMercado());
+				System.out.println(tokenValido);
 			}
 		};
 
 		Timer timer = new Timer("executeService");
-
-		long delayInit = 1000L;
-		long period = configPeriod;
-
 		timer.scheduleAtFixedRate(serviceFindInformationTask, delayInit, period);
 	}
 }

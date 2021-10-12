@@ -14,8 +14,8 @@ public class ConfigAppService {
     @Autowired
     private ConfigAppRepository configAppRepository;
 
-    public ConfigApp buscar(Long id){
-        Optional<ConfigApp> appOptional = configAppRepository.findById(id);
+    public ConfigApp buscar(Long idApp){
+        Optional<ConfigApp> appOptional = configAppRepository.findById(idApp);
 
         if (appOptional.isEmpty()){
            return null;
@@ -24,8 +24,13 @@ public class ConfigAppService {
         return appOptional.get();
     }
 
+    public Long buscarIntervalo(Long idApp){
+        Long interval = configAppRepository.findIntervaloConsulta(idApp);
+        return interval;
+    }
+
     public boolean tokenValido(LocalDateTime dateExpireIn){
         if(dateExpireIn == null) return false;
-        return dateExpireIn.isAfter(LocalDateTime.now());
+        return dateExpireIn.isBefore(LocalDateTime.now());
     }
 }
