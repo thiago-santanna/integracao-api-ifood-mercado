@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class Order {
+public class Pedido {
 	private Long idLoja;
 	private Long idCliente;
 	private String codigo;
@@ -38,7 +38,7 @@ public class Order {
 	private EnderecoEntrega enderecoEntrega;
 	private Loja loja;
 	private Cliente cliente;
-	private List<Item> items = new ArrayList<>();
+	private List<ItemPedido> itemPedidos = new ArrayList<>();
 	
 
 }	  
