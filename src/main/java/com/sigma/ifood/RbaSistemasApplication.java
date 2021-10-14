@@ -79,7 +79,7 @@ class Runner implements ApplicationRunner{
 			}
 		};
 
-		Timer timer = new Timer("executeService");
-		timer.scheduleAtFixedRate(serviceFindInformationTask, delayInit, period);
+		//Timer timer = new Timer("executeService");
+		//timer.scheduleAtFixedRate(serviceFindInformationTask, delayInit, period);
 	}
 }
