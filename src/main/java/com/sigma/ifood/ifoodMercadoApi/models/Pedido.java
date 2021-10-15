@@ -9,8 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class Pedido {
-	private Long id;	
+public class Pedido {	
 	private Long idLoja;
 	private Long idCliente;
 	private String codigo;
@@ -36,10 +35,10 @@ public class Pedido {
 	private BigDecimal valorDesconto;
 	private BigDecimal valorTotal;
 	private BigDecimal valorCorrigido;
-	private String plataforma;
 	private Parceiro parceiro;
-	private Endereco endereco;
+	private String plataforma;	
+	private Endereco enderecoEntrega;
 	private Loja loja;
 	private Cliente cliente;
-	private List<ItemPedido> itemPedido = new ArrayList<>();
+	private List<ItemPedido> items = new ArrayList<>();
 }	  

@@ -15,5 +15,5 @@ public class Cliente {
 	private Boolean publicidadeEmail;
 	private Boolean publicidadeSms;
 	private String telefoneCelular;
-	private List<Endereco> enderecoCliente = new ArrayList<>();	
+	private List<Endereco> enderecos = new ArrayList<>();	
 }
