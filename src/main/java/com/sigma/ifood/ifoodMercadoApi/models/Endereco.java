@@ -11,7 +11,7 @@ import javax.persistence.Table;
 @Data
 @Entity
 @Table(name = "endereco_entrega")
-public class EnderecoEntrega {
+public class Endereco {
 	@Id
 	private Long id;
 	private String logradouro;

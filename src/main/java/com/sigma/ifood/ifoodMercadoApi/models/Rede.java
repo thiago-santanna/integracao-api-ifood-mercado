@@ -7,10 +7,7 @@ import javax.persistence.Table;
 import lombok.Data;
 
 @Data
-@Entity
-@Table(name = "rede")
 public class Rede {
-	@Id
 	private Long id;
 	private String nome;
 }
