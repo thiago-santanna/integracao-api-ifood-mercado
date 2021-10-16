@@ -52,13 +52,16 @@ class Runner implements ApplicationRunner{
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
-		Long period = configAppService.buscarIntervalo(1L);
-		Long delayInit = 10000L;//10s
+		Long period = configAppService.buscarIntervaloEvents(1L);
+		Long delayInit = 1000L;//10s
+		
+		Long periodIntegrationProduct = configAppService.buscarIntervaloProduct(1L);;
+		Long delayProductInitIntegrations = 2000L;
 
 		TimerTask serviceFindInformationTask = new TimerTask() {
 			@Override
 			public void run() {
-				ConfigApp configApp = configAppService.buscar(1L);
+/*				ConfigApp configApp = configAppService.buscar(1L);
 				LocalDateTime expireIn = configApp.getExpireIn();
 				String tokenOperation = configApp.getToken();
 
@@ -75,11 +78,25 @@ class Runner implements ApplicationRunner{
 				System.out.println("Task performed on " + new Date());
 				System.out.println(configApp.getClientIdIfoodMercado());
 				System.out.println(tokenOperation);
-				System.out.println(expireIn);
+				System.out.println(expireIn);*/
+				
+				System.out.println("Pesqusa dos eventos feita");
 			}
 		};
+		
+		TimerTask serviceIntegrationProduct = new TimerTask() {
 
-		Timer timer = new Timer("executeService");
-		timer.scheduleAtFixedRate(serviceFindInformationTask, delayInit, period);
+			@Override
+			public void run() {
+				System.out.println("integração de produto feita");				
+			}
+			
+		};
+
+		Timer timerEvents = new Timer("executeServiceEvents");
+		timerEvents.scheduleAtFixedRate(serviceFindInformationTask, delayInit, period);
+		
+		Timer timerProduct = new Timer("executeServiceProdutos");
+		timerProduct.scheduleAtFixedRate(serviceIntegrationProduct, delayProductInitIntegrations, periodIntegrationProduct);
 	}
 }

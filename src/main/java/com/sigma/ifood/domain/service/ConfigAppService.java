@@ -24,8 +24,13 @@ public class ConfigAppService {
         return appOptional.get();
     }
 
-    public Long buscarIntervalo(Long idApp){
-        Long interval = configAppRepository.findIntervaloConsulta(idApp);
+    public Long buscarIntervaloEvents(Long idApp){
+        Long interval = configAppRepository.findIntervaloConsultaPedido(idApp);
+        return interval;
+    }
+    
+    public Long buscarIntervaloProduct(Long idApp){
+        Long interval = configAppRepository.findIntervaloIntegrarProduto(idApp);
         return interval;
     }
 

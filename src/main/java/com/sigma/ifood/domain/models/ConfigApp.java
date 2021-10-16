@@ -1,6 +1,5 @@
 package com.sigma.ifood.domain.models;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -18,7 +17,8 @@ public class ConfigApp {
     @Column(columnDefinition = "TEXT")
     private String token;
     private LocalDateTime expireIn;
-    private Long intervaloConsulta;
+    private Long intervaloConsultaPedido;
+    private Long intervaloIntegrarProduto;
 
     public ConfigApp(){}
 }

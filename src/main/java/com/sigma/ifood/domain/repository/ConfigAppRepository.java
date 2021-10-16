@@ -8,6 +8,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ConfigAppRepository extends JpaRepository<ConfigApp, Long> {
-    @Query("SELECT c.intervaloConsulta FROM ConfigApp c WHERE c.id = :id")
-    Long findIntervaloConsulta(@Param("id") Long appId);
+    @Query("SELECT c.intervaloConsultaPedido FROM ConfigApp c WHERE c.id = :id")
+    Long findIntervaloConsultaPedido(@Param("id") Long appId);
+    
+    @Query("SELECT c.intervaloIntegrarProduto FROM ConfigApp c WHERE c.id = :id")
+    Long findIntervaloIntegrarProduto(@Param("id") Long appId);
 }
