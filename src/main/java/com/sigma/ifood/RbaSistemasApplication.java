@@ -53,7 +53,7 @@ class Runner implements ApplicationRunner{
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 		Long period = configAppService.buscarIntervalo(1L);
-		Long delayInit = 1000L;
+		Long delayInit = 10000L;//10s
 
 		TimerTask serviceFindInformationTask = new TimerTask() {
 			@Override
@@ -79,7 +79,7 @@ class Runner implements ApplicationRunner{
 			}
 		};
 
-		//Timer timer = new Timer("executeService");
-		//timer.scheduleAtFixedRate(serviceFindInformationTask, delayInit, period);
+		Timer timer = new Timer("executeService");
+		timer.scheduleAtFixedRate(serviceFindInformationTask, delayInit, period);
 	}
 }

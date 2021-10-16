@@ -1,6 +1,7 @@
 package com.sigma.ifood.ifoodMercadoApi.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sigma.ifood.ifoodMercadoApi.dto.PedidoVerificado;
 import com.sigma.ifood.ifoodMercadoApi.dto.TokenDto;
 import com.sigma.ifood.ifoodMercadoApi.models.Token;
 import com.sigma.ifood.ifoodMercadoApi.models.Events;
@@ -13,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -53,6 +53,17 @@ public class IfoodMercadoService {
 		return Arrays.stream(eventos)
 				  .map(object -> mapper.convertValue(object, Events.class))
 				  .collect(Collectors.toList());
+	}
+	
+	public void verificaPedido(List<PedidoVerificado> pedidosVerificado, String accessToken) {
+		this.webClientMercado
+			.post()
+			.uri("pedido/eventos/verificado")
+			.header("Authorization", accessToken)
+			.body(Mono.just(pedidosVerificado), PedidoVerificado.class)
+			.retrieve()
+			.bodyToMono(Void.class)
+			.block();			
 	}
 	
 	public Pedido getPedido(String accessToken, String codigoPedido) {
