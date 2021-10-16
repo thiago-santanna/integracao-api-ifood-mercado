@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sigma.ifood.ifoodMercadoApi.dto.TokenDto;
 import com.sigma.ifood.ifoodMercadoApi.models.Token;
 import com.sigma.ifood.ifoodMercadoApi.models.Events;
+import com.sigma.ifood.ifoodMercadoApi.models.Pedido;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -35,7 +37,7 @@ public class IfoodMercadoService {
 		return monoToken.block();
 	}
 	
-	public void getEventos(String accessToken) {
+	public List<Events> getEventos(String accessToken) {
 		Mono<Object[]> monoEventos = this.webClientMercado
 				.method(HttpMethod.GET)
 				.uri("pedido/eventos")
@@ -46,11 +48,23 @@ public class IfoodMercadoService {
 		
 		Object[] eventos = monoEventos.block();
 		
-/*		ObjectMapper mapper = new ObjectMapper();
+		ObjectMapper mapper = new ObjectMapper();
 		
 		return Arrays.stream(eventos)
 				  .map(object -> mapper.convertValue(object, Events.class))
-				  .collect(Collectors.toList());*/
+				  .collect(Collectors.toList());
+	}
+	
+	public Pedido getPedido(String accessToken, String codigoPedido) {
+		Pedido pedido = this.webClientMercado
+				.get()
+				.uri("pedido/"+codigoPedido)
+				.header("Authorization", accessToken)
+				.retrieve()
+				.bodyToMono(Pedido.class)
+				.block();
+		
+		return pedido;
 	}
 
 }
