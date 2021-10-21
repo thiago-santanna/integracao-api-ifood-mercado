@@ -1,6 +1,6 @@
 package com.sigma.ifood;
 
-import com.sigma.ifood.domain.models.ConfigApp;
+import com.sigma.ifood.domain.models.config.ConfigApp;
 import com.sigma.ifood.domain.service.ConfigAppService;
 import com.sigma.ifood.ifoodMercadoApi.dto.TokenDto;
 import com.sigma.ifood.ifoodMercadoApi.models.token.Token;

@@ -1,6 +1,6 @@
 package com.sigma.ifood.domain.service;
 
-import com.sigma.ifood.domain.models.ConfigApp;
+import com.sigma.ifood.domain.models.config.ConfigApp;
 import com.sigma.ifood.domain.repository.ConfigAppRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package com.sigma.ifood.domain.models;
+package com.sigma.ifood.domain.models.config;
 
 import lombok.Data;
 
