@@ -4,10 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sigma.ifood.ifoodMercadoApi.dto.PedidoVerificado;
 import com.sigma.ifood.ifoodMercadoApi.dto.ProdutoIntegrado;
 import com.sigma.ifood.ifoodMercadoApi.dto.TokenDto;
-import com.sigma.ifood.ifoodMercadoApi.models.Token;
-import com.sigma.ifood.ifoodMercadoApi.models.Events;
-import com.sigma.ifood.ifoodMercadoApi.models.Pedido;
-import com.sigma.ifood.ifoodMercadoApi.models.Produto;
+import com.sigma.ifood.ifoodMercadoApi.models.event.Events;
+import com.sigma.ifood.ifoodMercadoApi.models.pedido.Pedido;
+import com.sigma.ifood.ifoodMercadoApi.models.produto.Produto;
+import com.sigma.ifood.ifoodMercadoApi.models.token.Token;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;

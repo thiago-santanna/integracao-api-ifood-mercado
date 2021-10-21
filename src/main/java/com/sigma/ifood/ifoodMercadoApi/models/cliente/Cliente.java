@@ -1,9 +1,11 @@
-package com.sigma.ifood.ifoodMercadoApi.models;
+package com.sigma.ifood.ifoodMercadoApi.models.cliente;
 
 import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.sigma.ifood.ifoodMercadoApi.models.endereco.Endereco;
 
 @Data
 public class Cliente {

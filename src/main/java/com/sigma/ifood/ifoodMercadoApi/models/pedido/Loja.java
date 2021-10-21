@@ -1,4 +1,6 @@
-package com.sigma.ifood.ifoodMercadoApi.models;
+package com.sigma.ifood.ifoodMercadoApi.models.pedido;
+
+import com.sigma.ifood.ifoodMercadoApi.models.endereco.Endereco;
 
 import lombok.Data;
 

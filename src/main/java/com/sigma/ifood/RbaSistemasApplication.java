@@ -3,7 +3,7 @@ package com.sigma.ifood;
 import com.sigma.ifood.domain.models.ConfigApp;
 import com.sigma.ifood.domain.service.ConfigAppService;
 import com.sigma.ifood.ifoodMercadoApi.dto.TokenDto;
-import com.sigma.ifood.ifoodMercadoApi.models.Token;
+import com.sigma.ifood.ifoodMercadoApi.models.token.Token;
 import com.sigma.ifood.ifoodMercadoApi.service.IfoodMercadoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -55,7 +55,7 @@ class Runner implements ApplicationRunner{
 		Long period = configAppService.buscarIntervaloEvents(1L);
 		Long delayInit = 1000L;//10s
 		
-		Long periodIntegrationProduct = configAppService.buscarIntervaloProduct(1L);;
+		Long periodIntegrationProduct = configAppService.buscarIntervaloProduct(1L);
 		Long delayProductInitIntegrations = 2000L;
 
 		TimerTask serviceFindInformationTask = new TimerTask() {

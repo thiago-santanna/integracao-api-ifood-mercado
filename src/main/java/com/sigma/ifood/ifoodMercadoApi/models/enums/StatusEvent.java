@@ -1,4 +1,4 @@
-package com.sigma.ifood.ifoodMercadoApi.models;
+package com.sigma.ifood.ifoodMercadoApi.models.enums;
 
 public enum StatusEvent {
 	CAN,

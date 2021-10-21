@@ -1,4 +1,4 @@
-package com.sigma.ifood.ifoodMercadoApi.models;
+package com.sigma.ifood.ifoodMercadoApi.models.pedido;
 
 import java.math.BigDecimal;
 

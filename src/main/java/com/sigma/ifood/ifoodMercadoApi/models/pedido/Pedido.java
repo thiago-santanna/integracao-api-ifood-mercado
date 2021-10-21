@@ -1,4 +1,4 @@
-package com.sigma.ifood.ifoodMercadoApi.models;
+package com.sigma.ifood.ifoodMercadoApi.models.pedido;
 
 import lombok.Data;
 
@@ -7,6 +7,10 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.sigma.ifood.ifoodMercadoApi.models.cliente.Cliente;
+import com.sigma.ifood.ifoodMercadoApi.models.endereco.Endereco;
+import com.sigma.ifood.ifoodMercadoApi.models.enums.StatusEvent;
 
 @Data
 public class Pedido {	
