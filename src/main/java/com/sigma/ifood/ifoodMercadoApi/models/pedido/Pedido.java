@@ -10,7 +10,7 @@ import java.util.List;
 
 import com.sigma.ifood.ifoodMercadoApi.models.cliente.Cliente;
 import com.sigma.ifood.ifoodMercadoApi.models.endereco.Endereco;
-import com.sigma.ifood.ifoodMercadoApi.models.enums.StatusEvent;
+import com.sigma.ifood.ifoodMercadoApi.models.enums.StatusEventoPedido;
 
 @Data
 public class Pedido {	
@@ -27,7 +27,7 @@ public class Pedido {
 	private LocalTime agendamentoHoraFim;
 	private Boolean entrega;
 	private Boolean cpfNaNota;
-	private StatusEvent status;	
+	private StatusEventoPedido status;	
 	private String statusDescricao;
 	private String pessoaAutorizadaRecebimento;
 	private Integer quantidadeItemUnico;

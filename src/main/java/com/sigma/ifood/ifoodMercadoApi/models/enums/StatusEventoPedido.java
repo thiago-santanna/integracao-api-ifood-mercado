@@ -1,6 +1,6 @@
 package com.sigma.ifood.ifoodMercadoApi.models.enums;
 
-public enum StatusEvent {
+public enum StatusEventoPedido {
 	CAN,
 	DEV,
 	EMI,

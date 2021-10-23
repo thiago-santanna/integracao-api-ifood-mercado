@@ -1,6 +1,6 @@
 package com.sigma.ifood.ifoodMercadoApi.models.event;
 
-import com.sigma.ifood.ifoodMercadoApi.models.enums.StatusEvent;
+import com.sigma.ifood.ifoodMercadoApi.models.enums.StatusEventoPedido;
 
 import lombok.Data;
 
@@ -8,6 +8,6 @@ import lombok.Data;
 public class Events {
 	private Long id;
 	private String codigoPedido;
-	private StatusEvent status;
-	private Long idLoja;
+	private StatusEventoPedido status;
+	private Integer idLoja;
 }
