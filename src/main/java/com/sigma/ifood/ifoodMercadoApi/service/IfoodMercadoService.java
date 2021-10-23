@@ -25,19 +25,6 @@ public class IfoodMercadoService {
 	
 	@Autowired
 	private WebClient webClientMercado;
-
-		
-	public Token getToken(TokenDto credenciais) {
-		Mono<Token> monoToken = this.webClientMercado
-				.method(HttpMethod.POST)
-				.uri("oauth/token")
-				.contentType(MediaType.APPLICATION_JSON)
-				.body(Mono.just(credenciais), TokenDto.class) 
-				.retrieve()
-				.bodyToMono(Token.class);
-		
-		return monoToken.block();
-	}
 	
 	public List<Events> getEventos(String accessToken) {
 		Mono<Object[]> monoEventos = this.webClientMercado

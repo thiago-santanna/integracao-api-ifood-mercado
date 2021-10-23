@@ -1,10 +1,10 @@
 package com.sigma.ifood;
 
-import com.sigma.ifood.domain.models.config.ConfigApp;
-import com.sigma.ifood.domain.service.ConfigAppService;
-import com.sigma.ifood.ifoodMercadoApi.dto.TokenDto;
-import com.sigma.ifood.ifoodMercadoApi.models.token.Token;
-import com.sigma.ifood.ifoodMercadoApi.service.IfoodMercadoService;
+import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -14,10 +14,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
+import com.sigma.ifood.domain.models.config.ConfigApp;
+import com.sigma.ifood.domain.service.ConfigAppService;
+import com.sigma.ifood.ifoodMercadoApi.dto.TokenDto;
+import com.sigma.ifood.ifoodMercadoApi.models.token.Token;
+import com.sigma.ifood.ifoodMercadoApi.service.GerarTokenService;
 
 @SpringBootApplication
 public class RbaSistemasApplication {
@@ -45,10 +46,12 @@ class Runner implements ApplicationRunner{
 	private ConfigAppService configAppService;
 
 	@Autowired
-	private IfoodMercadoService ifoodMercadoService;
+	private GerarTokenService gerarTokenService;
 
 	// Aqui vou disparar o serviço de consultar dados na api do ifood Mercado
 	// se novo token Vou salvar no bancode dados
+	
+	// EM DESENVOLVIMENTO...
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
@@ -61,12 +64,13 @@ class Runner implements ApplicationRunner{
 		TimerTask serviceFindInformationTask = new TimerTask() {
 			@Override
 			public void run() {
-/*				ConfigApp configApp = configAppService.buscar(1L);
+				///*
+				ConfigApp configApp = configAppService.buscar(1L);
 				LocalDateTime expireIn = configApp.getExpireIn();
 				String tokenOperation = configApp.getToken();
 
 				if (!configAppService.tokenValido(expireIn)){
-					Token token = ifoodMercadoService.getToken(
+					Token token = gerarTokenService.getToken(
 							new TokenDto(
 									configApp.getClientIdIfoodMercado(),
 									configApp.getClientSecretIfoodMercado()
@@ -78,7 +82,8 @@ class Runner implements ApplicationRunner{
 				System.out.println("Task performed on " + new Date());
 				System.out.println(configApp.getClientIdIfoodMercado());
 				System.out.println(tokenOperation);
-				System.out.println(expireIn);*/
+				System.out.println(expireIn);
+				//*/
 				
 				System.out.println("Pesqusa dos eventos feita");
 			}
