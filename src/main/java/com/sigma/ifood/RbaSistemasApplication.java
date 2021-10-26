@@ -1,7 +1,8 @@
 package com.sigma.ifood;
 
-import java.time.LocalDateTime;
-import java.util.Date;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -14,18 +15,24 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import com.sigma.ifood.domain.models.config.ConfigApp;
 import com.sigma.ifood.domain.service.ConfigAppService;
-import com.sigma.ifood.ifoodMercadoApi.dto.TokenDto;
-import com.sigma.ifood.ifoodMercadoApi.models.token.Token;
+import com.sigma.ifood.ifoodMercadoApi.dto.PedidoVerificado;
+import com.sigma.ifood.ifoodMercadoApi.models.event.Events;
+import com.sigma.ifood.ifoodMercadoApi.models.pedido.Pedido;
+import com.sigma.ifood.ifoodMercadoApi.models.produto.Produto;
+import com.sigma.ifood.ifoodMercadoApi.service.BuscaEventoPedidosService;
+import com.sigma.ifood.ifoodMercadoApi.service.BuscarPedidoService;
 import com.sigma.ifood.ifoodMercadoApi.service.GerarTokenService;
+import com.sigma.ifood.ifoodMercadoApi.service.IntegrarProdutoService;
+import com.sigma.ifood.ifoodMercadoApi.service.VerificarEventoService;
 
 @SpringBootApplication
 public class RbaSistemasApplication {
 	@Bean
 	public WebClient webClientMercado( WebClient.Builder builder) {
 		return builder
-				.baseUrl("https://service.sitemercado.com.br/api/v1/")
+				//.baseUrl("https://service.sitemercado.com.br/api/v1/")
+				.baseUrl("http://localhost:3030/")
 				.defaultHeader("Accept", "text/plain")
 				.defaultHeader("Content-Type", "application/*+json")
 				.build();
@@ -47,6 +54,18 @@ class Runner implements ApplicationRunner{
 
 	@Autowired
 	private GerarTokenService gerarTokenService;
+	
+	@Autowired
+	private BuscaEventoPedidosService buscarEventosService;
+	
+	@Autowired
+	private BuscarPedidoService buscarPedidoService;
+	
+	@Autowired
+	private VerificarEventoService verificarEventoService;
+	
+	@Autowired
+	private IntegrarProdutoService integrarProdutosService;
 
 	// Aqui vou disparar o serviço de consultar dados na api do ifood Mercado
 	// se novo token Vou salvar no bancode dados
@@ -64,7 +83,7 @@ class Runner implements ApplicationRunner{
 		TimerTask serviceFindInformationTask = new TimerTask() {
 			@Override
 			public void run() {
-				///*
+				/*
 				ConfigApp configApp = configAppService.buscar(1L);
 				LocalDateTime expireIn = configApp.getExpireIn();
 				String tokenOperation = configApp.getToken();
@@ -83,12 +102,72 @@ class Runner implements ApplicationRunner{
 				System.out.println(configApp.getClientIdIfoodMercado());
 				System.out.println(tokenOperation);
 				System.out.println(expireIn);
-				//*/
+				*/
 				
 				System.out.println("Pesqusa dos eventos feita");
+				
+				System.out.println("");
+				System.out.println("Teste listando todos os eventos de pedido");
+				List<Events> eventos = buscarEventosService.getEventos("TESTE");
+				eventos.forEach(evento -> System.out.println("Evento -> " + evento.getCodigoPedido()));
+				
+				System.out.println("");
+				System.out.println("Teste buscando um pedido pele código");
+				
+				Pedido pedido = buscarPedidoService.getPedido("TESTE", "2551-E4200485");
+				System.out.println("Pedido ->  " + pedido.getCodigo() + " - Status: "+pedido.getStatus());
+				
+				
+				System.out.println("");
+				System.out.println("Teste buscando um pedido pele código");	
+				
+				PedidoVerificado pedidoVerificado01 = new PedidoVerificado();
+				pedidoVerificado01.setId(12345678L);
+				
+				PedidoVerificado pedidoVerificado02 = new PedidoVerificado();
+				pedidoVerificado02.setId(12345679L);				
+				
+				List<PedidoVerificado> pedidosVerificados = new ArrayList<>();
+				pedidosVerificados.add(pedidoVerificado01);
+				pedidosVerificados.add(pedidoVerificado02);
+				
+				verificarEventoService.verificaPedido(pedidosVerificados, "TESTE");
+				
+				
+				System.out.println("");
+				System.out.println("Teste Enviando produtos.");	
+				
+				Produto prod01 = new Produto();
+				Produto prod02 = new Produto();
+				Produto prod03 = new Produto();
+				Produto prod04 = new Produto();
+				Produto prod05 = new Produto();
+				
+				prod01.setNome("PRODUTO 01");
+				prod02.setNome("PRODUTO 02");
+				prod03.setNome("PRODUTO 03");
+				prod04.setNome("PRODUTO 04");
+				prod05.setNome("PRODUTO 05");
+				
+				prod01.setValor(BigDecimal.valueOf(10));
+				prod02.setValor(BigDecimal.valueOf(20));
+				prod03.setValor(BigDecimal.valueOf(30));
+				prod04.setValor(BigDecimal.valueOf(40));
+				prod05.setValor(BigDecimal.valueOf(50));
+				
+				List<Produto> produtos = new ArrayList<>();
+				produtos.add(prod01);
+				produtos.add(prod02);
+				produtos.add(prod03);
+				produtos.add(prod04);
+				produtos.add(prod05);
+				
+				integrarProdutosService.integrarProdutos("TESTE", produtos);
+				
 			}
 		};
 		
+		/*
 		TimerTask serviceIntegrationProduct = new TimerTask() {
 
 			@Override
@@ -96,12 +175,12 @@ class Runner implements ApplicationRunner{
 				System.out.println("integração de produto feita");				
 			}
 			
-		};
+		};*/
 
 		Timer timerEvents = new Timer("executeServiceEvents");
 		timerEvents.scheduleAtFixedRate(serviceFindInformationTask, delayInit, period);
 		
-		Timer timerProduct = new Timer("executeServiceProdutos");
-		timerProduct.scheduleAtFixedRate(serviceIntegrationProduct, delayProductInitIntegrations, periodIntegrationProduct);
+		//Timer timerProduct = new Timer("executeServiceProdutos");
+		//timerProduct.scheduleAtFixedRate(serviceIntegrationProduct, delayProductInitIntegrations, periodIntegrationProduct);
 	}
 }
