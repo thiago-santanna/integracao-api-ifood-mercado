@@ -58,8 +58,8 @@ public class AgendamentoService {
 		}
 		
 		
-		//List<Events> eventos = buscarEventosService.getEventos("TESTE");
-		//eventos.forEach(evento -> System.out.println("Evento -> " + evento.getCodigoPedido()));		
+		List<Events> eventos = buscarEventosService.getEventos(accessToken);
+		eventos.forEach(evento -> System.out.println("Evento -> " + evento.getCodigoPedido()));		
 		System.out.println("Serviço de verificar eventos executado");
 		
 	}

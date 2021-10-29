@@ -10,8 +10,8 @@ public class RbaSistemasApplication {
 	@Bean
 	public WebClient webClientMercado( WebClient.Builder builder) {
 		return builder
-				.baseUrl("https://service.sitemercado.com.br/api/v1/")
-				//.baseUrl("http://localhost:3030/")
+				//.baseUrl("https://service.sitemercado.com.br/api/v1/")
+				.baseUrl("http://localhost:3030/")
 				.defaultHeader("Accept", "text/plain")
 				.defaultHeader("Content-Type", "application/*+json")
 				.build();
