@@ -17,8 +17,9 @@ public class ConfigApp {
     @Column(columnDefinition = "TEXT")
     private String token;
     private LocalDateTime expireIn;
-    private Long intervaloConsultaPedido;
-    private Long intervaloIntegrarProduto;
+	/*
+	 * private Long intervaloConsultaPedido; private Long intervaloIntegrarProduto;
+	 */
 
     public ConfigApp(){}
 }
