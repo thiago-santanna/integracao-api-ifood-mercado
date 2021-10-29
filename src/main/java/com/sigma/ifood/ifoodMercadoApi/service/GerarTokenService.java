@@ -28,13 +28,13 @@ public class GerarTokenService {
 				.body(Mono.just(credenciais), CredentialsDto.class) 
 				.retrieve()
 				.bodyToMono(Token.class);
-		
+
 		return monoToken.block();
 	}
 	
-    private boolean tokenValido(LocalDateTime dateExpireIn){
-        if(dateExpireIn == null) return false;
-        return dateExpireIn.isBefore(LocalDateTime.now());
+    private boolean tokenValido(LocalDateTime dateExpireIn){    	
+        if(dateExpireIn == null) return false;        
+        return !dateExpireIn.isBefore(LocalDateTime.now());
     }
     
     public AccessTokenDto gerarOuValidarToken(LocalDateTime expireIn, String clientId, String clientSecret) {
@@ -45,7 +45,7 @@ public class GerarTokenService {
 							clientId,
 							clientSecret
 					));
-			
+			System.out.println("gerou novo token");
 			return new AccessTokenDto(
 					token.getToken_type() + " " + token.getAccess_token(),
 					LocalDateTime.now().plusSeconds(Long.parseLong(token.getExpires_in()))

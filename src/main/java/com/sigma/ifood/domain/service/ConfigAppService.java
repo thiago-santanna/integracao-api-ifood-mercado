@@ -1,7 +1,8 @@
 package com.sigma.ifood.domain.service;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
+
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,11 @@ public class ConfigAppService {
         }
 
         return appOptional.get();
+    }
+    
+    @Transactional
+    public ConfigApp salvar(ConfigApp configApp) {
+    	return configAppRepository.save(configApp);
     }
 
 	/*

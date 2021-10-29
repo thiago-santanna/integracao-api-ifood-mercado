@@ -1,6 +1,7 @@
 package com.sigma.ifood.schedule;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Service;
 import com.sigma.ifood.domain.models.config.ConfigApp;
 import com.sigma.ifood.domain.service.ConfigAppService;
 import com.sigma.ifood.ifoodMercadoApi.dto.AccessTokenDto;
+import com.sigma.ifood.ifoodMercadoApi.models.event.Events;
+import com.sigma.ifood.ifoodMercadoApi.service.BuscaEventoPedidosService;
 import com.sigma.ifood.ifoodMercadoApi.service.GerarTokenService;
 
 @Service
@@ -18,7 +21,8 @@ public class AgendamentoService {
 	private final long SEGUNDO = 1000;
 	private final long CINCO_SEGUNDOS = 5000;
 	private final long DEZ_SEGUNDOS = SEGUNDO * 10;
-	
+	private final long VINTE_SEGUNDOS = SEGUNDO * 20;
+	private final long TRINTA_SEGUNDOS = SEGUNDO * 30;	
 	private final long MINUTO = SEGUNDO * 60;
 	private final long MEIA_HORA = MINUTO * 30; 
 	private final long HORA = MINUTO * 60;
@@ -28,6 +32,9 @@ public class AgendamentoService {
 
 	@Autowired
 	private GerarTokenService gerarTokenService;
+	
+	@Autowired
+	private BuscaEventoPedidosService buscarEventosService;
 	
 	@Scheduled(fixedDelay = DEZ_SEGUNDOS, initialDelay = CINCO_SEGUNDOS)
 	public void verificarEventos() {
@@ -44,11 +51,17 @@ public class AgendamentoService {
 		if(accessTokenDto != null) {
 			expireIn = accessTokenDto.getExpireIn();
 			accessToken = accessTokenDto.getAccessToken();
+			
+			configApp.setExpireIn(expireIn);
+			configApp.setToken(accessToken);
+			configAppService.salvar(configApp);			
 		}
 		
+		
+		//List<Events> eventos = buscarEventosService.getEventos("TESTE");
+		//eventos.forEach(evento -> System.out.println("Evento -> " + evento.getCodigoPedido()));		
 		System.out.println("Serviço de verificar eventos executado");
-		System.out.println(accessToken);
-		System.out.println(expireIn);
+		
 	}
 	
 	/*
