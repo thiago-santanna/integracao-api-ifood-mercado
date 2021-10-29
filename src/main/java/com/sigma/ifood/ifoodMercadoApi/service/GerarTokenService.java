@@ -28,7 +28,7 @@ public class GerarTokenService {
 				.body(Mono.just(credenciais), CredentialsDto.class) 
 				.retrieve()
 				.bodyToMono(Token.class);
-
+		System.out.println("gerou novo token 1");
 		return monoToken.block();
 	}
 	
@@ -45,7 +45,7 @@ public class GerarTokenService {
 							clientId,
 							clientSecret
 					));
-			System.out.println("gerou novo token");
+			System.out.println("gerou novo token 2");
 			return new AccessTokenDto(
 					token.getToken_type() + " " + token.getAccess_token(),
 					LocalDateTime.now().plusSeconds(Long.parseLong(token.getExpires_in()))

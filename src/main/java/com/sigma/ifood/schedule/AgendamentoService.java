@@ -1,15 +1,20 @@
 package com.sigma.ifood.schedule;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sigma.ifood.domain.models.config.ConfigApp;
+import com.sigma.ifood.domain.models.pedido.Eventos;
 import com.sigma.ifood.domain.service.ConfigAppService;
+import com.sigma.ifood.domain.service.EventosService;
 import com.sigma.ifood.ifoodMercadoApi.dto.AccessTokenDto;
 import com.sigma.ifood.ifoodMercadoApi.models.event.Events;
 import com.sigma.ifood.ifoodMercadoApi.service.BuscaEventoPedidosService;
@@ -36,6 +41,9 @@ public class AgendamentoService {
 	@Autowired
 	private BuscaEventoPedidosService buscarEventosService;
 	
+	@Autowired
+	private EventosService eventosService;
+	
 	@Scheduled(fixedDelay = DEZ_SEGUNDOS, initialDelay = CINCO_SEGUNDOS)
 	public void verificarEventos() {
 		ConfigApp configApp = configAppService.buscar(1L);
@@ -51,7 +59,7 @@ public class AgendamentoService {
 		if(accessTokenDto != null) {
 			expireIn = accessTokenDto.getExpireIn();
 			accessToken = accessTokenDto.getAccessToken();
-			
+			System.out.println("Salvou cofigurações");
 			configApp.setExpireIn(expireIn);
 			configApp.setToken(accessToken);
 			configAppService.salvar(configApp);			
@@ -59,7 +67,16 @@ public class AgendamentoService {
 		
 		
 		List<Events> eventos = buscarEventosService.getEventos(accessToken);
-		eventos.forEach(evento -> System.out.println("Evento -> " + evento.getCodigoPedido()));		
+		
+		if(eventos != null) {		
+			ObjectMapper mapper = new ObjectMapper();
+			List<Eventos> domainEventos = eventos.stream()
+				.map(evt -> mapper.convertValue(evt, Eventos.class))
+				.collect(Collectors.toList());
+			
+			eventosService.salvar(domainEventos);
+			domainEventos.forEach(evento -> System.out.println("Evento -> " + evento.getCodigoPedido()));
+		}
 		System.out.println("Serviço de verificar eventos executado");
 		
 	}
