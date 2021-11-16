@@ -1,6 +1,5 @@
 package com.sigma.ifood.schedule;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,14 +9,16 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sigma.ifood.domain.models.config.ConfigApp;
+import com.sigma.ifood.domain.assemblers.ProductDomainAssembler;
 import com.sigma.ifood.domain.models.pedido.Eventos;
-import com.sigma.ifood.domain.service.ConfigAppService;
+import com.sigma.ifood.domain.models.produto.ProdutoDomain;
 import com.sigma.ifood.domain.service.EventosService;
-import com.sigma.ifood.ifoodMercadoApi.dto.AccessTokenDto;
+import com.sigma.ifood.domain.service.ProdutoDomainService;
 import com.sigma.ifood.ifoodMercadoApi.models.event.Events;
+import com.sigma.ifood.ifoodMercadoApi.models.produto.Produto;
 import com.sigma.ifood.ifoodMercadoApi.service.BuscaEventoPedidosService;
-import com.sigma.ifood.ifoodMercadoApi.service.GerarTokenService;
+import com.sigma.ifood.ifoodMercadoApi.service.BuscarTokenValido;
+import com.sigma.ifood.ifoodMercadoApi.service.IntegrarProdutoService;
 
 @Service
 @EnableScheduling
@@ -32,10 +33,7 @@ public class AgendamentoService {
 	private final long HORA = MINUTO * 60;
 	
 	@Autowired
-	private ConfigAppService configAppService;
-
-	@Autowired
-	private GerarTokenService gerarTokenService;
+	private BuscarTokenValido buscarToken;
 	
 	@Autowired
 	private BuscaEventoPedidosService buscarEventosService;
@@ -43,28 +41,19 @@ public class AgendamentoService {
 	@Autowired
 	private EventosService eventosService;
 	
+	@Autowired
+	private ProdutoDomainService produtoDomainService;
+	
+	@Autowired
+	private ProductDomainAssembler productDomainAssembler;
+	
+	@Autowired
+	private IntegrarProdutoService integrarProdutoService;	
+	
 	@Scheduled(fixedDelay = CINCO_SEGUNDOS, initialDelay = MEIA_HORA)
 	public void verificarEventos() {
-		//Se um dia for precisar usar mais de uma credencial, fazer um controller e o client deve informar qual app quer buscar
-		ConfigApp configApp = configAppService.buscar(1L);
 		
-		//Access Token atual se após testado ainda for válido será usado, caso contrário será atualizado e salvo no banco
-		LocalDateTime expireIn = configApp.getExpireIn();
-		String accessToken = configApp.getToken();
-		
-		String clientId = configApp.getClientIdIfoodMercado();
-		String clientSecret = configApp.getClientSecretIfoodMercado(); 
-		
-		AccessTokenDto accessTokenDto = gerarTokenService.gerarOuValidarToken(expireIn, clientId, clientSecret);
-		if(accessTokenDto != null) {
-			expireIn = accessTokenDto.getExpireIn();
-			accessToken = accessTokenDto.getAccessToken();
-			System.out.println("Salvou cofigurações");
-			configApp.setExpireIn(expireIn);
-			configApp.setToken(accessToken);
-			configAppService.salvar(configApp);			
-		}
-		
+		String accessToken = buscarToken.getTokenValid();
 		
 		List<Events> eventos = buscarEventosService.getEventos(accessToken);
 		
@@ -81,9 +70,13 @@ public class AgendamentoService {
 		
 	}
 	
-	/*
-	 * @Scheduled(fixedDelay = DEZ_SEGUNDOS, initialDelay = DEZ_SEGUNDOS) public
-	 * void integrarProdutos() {
-	 * System.out.println("Serviço de integração de produto executado "); }
-	 */
+	
+	@Scheduled(fixedDelay = MINUTO, initialDelay = DEZ_SEGUNDOS) public
+	void integrarProdutos() {
+		System.out.println("Serviço de integração de produto executado "); 
+		List<ProdutoDomain> lisOfProductIntegrable = produtoDomainService.lisOfProductIntegrable();
+		List<Produto> produtos = productDomainAssembler.toProdutoIfoodMercado(lisOfProductIntegrable);
+		integrarProdutoService.integrarProdutos(buscarToken.getTokenValid(), produtos);
+	}
+	 
 }

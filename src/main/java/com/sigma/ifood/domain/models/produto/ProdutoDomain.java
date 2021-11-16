@@ -15,13 +15,13 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "produtos_integracao")
-public class Produto {
+public class ProdutoDomain {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private Boolean integrar = true;
 	private LocalDateTime dataUltimaItegracao;	
-	private Boolean cacelado = false;
+	private Boolean cancelado = false;
 	
 	//Campos para compor o json, abaixo
 	private Long idLoja;	
@@ -67,4 +67,6 @@ public class Produto {
 	
 	@Column(length = 150)
 	private String imageURL;
+	
+	
 }
