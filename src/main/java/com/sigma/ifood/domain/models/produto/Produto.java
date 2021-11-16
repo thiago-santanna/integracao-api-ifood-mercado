@@ -21,6 +21,8 @@ public class Produto {
 	private Long id;
 	private Boolean integrar = true;
 	private LocalDateTime dataUltimaItegracao;	
+	private Boolean cacelado = false;
+	
 	//Campos para compor o json, abaixo
 	private Long idLoja;	
 	

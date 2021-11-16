@@ -1,7 +1,6 @@
 package com.sigma.ifood.schedule;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,7 +43,7 @@ public class AgendamentoService {
 	@Autowired
 	private EventosService eventosService;
 	
-	@Scheduled(fixedDelay = DEZ_SEGUNDOS, initialDelay = CINCO_SEGUNDOS)
+	@Scheduled(fixedDelay = CINCO_SEGUNDOS, initialDelay = MEIA_HORA)
 	public void verificarEventos() {
 		//Se um dia for precisar usar mais de uma credencial, fazer um controller e o client deve informar qual app quer buscar
 		ConfigApp configApp = configAppService.buscar(1L);
