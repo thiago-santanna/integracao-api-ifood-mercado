@@ -73,9 +73,10 @@ public class AgendamentoService {
 	void integrarProdutos() {
 		System.out.println("Serviço de integração de produto executado "); 
 		List<ProdutoDomain> lisOfProductIntegrable = produtoDomainService.lisOfProductIntegrable();
+		List<Produto> produtos = productDomainAssembler.toProdutoIfoodMercado(lisOfProductIntegrable);
 		
-		System.out.println(lisOfProductIntegrable);
-		//List<Produto> produtos = productDomainAssembler.toProdutoIfoodMercado(lisOfProductIntegrable);
+		System.out.println(produtos);
+		
 		//integrarProdutoService.integrarProdutos(buscarToken.getTokenValid(), produtos);
 	}
 	 
