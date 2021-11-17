@@ -74,10 +74,8 @@ public class AgendamentoService {
 		System.out.println("Serviço de integração de produto executado "); 
 		List<ProdutoDomain> lisOfProductIntegrable = produtoDomainService.lisOfProductIntegrable();
 		List<Produto> produtos = productDomainAssembler.toProdutoIfoodMercado(lisOfProductIntegrable);
-		
-		System.out.println(produtos);
-		
-		//integrarProdutoService.integrarProdutos(buscarToken.getTokenValid(), produtos);
+		//integrarProdutoService.integrarProdutos("", produtos); TESTE nodejs como api
+		integrarProdutoService.integrarProdutos(buscarToken.getTokenValid(), produtos);
 	}
 	 
 }
