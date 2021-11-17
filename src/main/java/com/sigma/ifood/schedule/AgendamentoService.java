@@ -1,5 +1,6 @@
 package com.sigma.ifood.schedule;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -74,8 +75,17 @@ public class AgendamentoService {
 		System.out.println("Serviço de integração de produto executado "); 
 		List<ProdutoDomain> lisOfProductIntegrable = produtoDomainService.lisOfProductIntegrable();
 		List<Produto> produtos = productDomainAssembler.toProdutoIfoodMercado(lisOfProductIntegrable);
-		//integrarProdutoService.integrarProdutos("", produtos); TESTE nodejs como api
-		integrarProdutoService.integrarProdutos(buscarToken.getTokenValid(), produtos);
+		
+		//TESTE nodejs como api
+		integrarProdutoService.integrarProdutos("", produtos);
+		//integrarProdutoService.integrarProdutos(buscarToken.getTokenValid(), produtos);
+		
+		for (ProdutoDomain produto : lisOfProductIntegrable) {
+			produto.setDataUltimaItegracao(LocalDateTime.now());
+			produto.setIntegrar(false);
+		}
+		
+		produtoDomainService.updatedProductsIntegrated(lisOfProductIntegrable);
 	}
 	 
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.sigma.ifood.domain.models.produto.ProdutoDomain;
 import com.sigma.ifood.domain.repository.ProdutoRepository;
@@ -19,5 +20,10 @@ public class ProdutoDomainService {
 		List<ProdutoDomain> productsDomain = produtoRepository.findByIntegrar(true);
 		return productsDomain;
 		
+	}
+	
+	@Transactional
+	public void updatedProductsIntegrated(List<ProdutoDomain> products){
+		produtoRepository.saveAll(products);
 	}
 }
