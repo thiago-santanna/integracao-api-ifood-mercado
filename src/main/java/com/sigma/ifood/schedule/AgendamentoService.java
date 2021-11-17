@@ -53,9 +53,7 @@ public class AgendamentoService {
 	@Scheduled(fixedDelay = CINCO_SEGUNDOS, initialDelay = MEIA_HORA)
 	public void verificarEventos() {
 		
-		String accessToken = buscarToken.getTokenValid();
-		
-		List<Events> eventos = buscarEventosService.getEventos(accessToken);
+		List<Events> eventos = buscarEventosService.getEventos(buscarToken.getTokenValid());
 		
 		if(eventos != null) {		
 			ObjectMapper mapper = new ObjectMapper();
@@ -75,8 +73,10 @@ public class AgendamentoService {
 	void integrarProdutos() {
 		System.out.println("Serviço de integração de produto executado "); 
 		List<ProdutoDomain> lisOfProductIntegrable = produtoDomainService.lisOfProductIntegrable();
-		List<Produto> produtos = productDomainAssembler.toProdutoIfoodMercado(lisOfProductIntegrable);
-		integrarProdutoService.integrarProdutos(buscarToken.getTokenValid(), produtos);
+		
+		System.out.println(lisOfProductIntegrable);
+		//List<Produto> produtos = productDomainAssembler.toProdutoIfoodMercado(lisOfProductIntegrable);
+		//integrarProdutoService.integrarProdutos(buscarToken.getTokenValid(), produtos);
 	}
 	 
 }
