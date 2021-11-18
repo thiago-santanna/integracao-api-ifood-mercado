@@ -20,10 +20,12 @@ public class BuscarTokenValido {
 	
 	
 	public String getTokenValid() {
-		//Se um dia for precisar usar mais de uma credencial, fazer um controller e o client deve informar qual app quer buscar
+		//Se um dia for precisar usar mais de uma credencial, 
+		//fazer um controller e o client deve informar qual app quer buscar
 		ConfigApp configApp = configAppService.buscar(1L);
 		
-		//Access Token atual se após testado ainda for válido será usado, caso contrário será atualizado e salvo no banco
+		//Access Token atual se após testado ainda for válido será usado, 
+		//caso contrário será atualizado e salvo no banco
 		LocalDateTime expireIn = configApp.getExpireIn();
 		String accessToken = configApp.getToken();
 		

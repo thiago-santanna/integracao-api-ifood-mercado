@@ -15,11 +15,13 @@ import com.sigma.ifood.domain.models.pedido.Eventos;
 import com.sigma.ifood.domain.models.produto.ProdutoDomain;
 import com.sigma.ifood.domain.service.EventosService;
 import com.sigma.ifood.domain.service.ProdutoDomainService;
+import com.sigma.ifood.ifoodMercadoApi.dto.PedidoVerificado;
 import com.sigma.ifood.ifoodMercadoApi.models.event.Events;
 import com.sigma.ifood.ifoodMercadoApi.models.produto.Produto;
 import com.sigma.ifood.ifoodMercadoApi.service.BuscaEventoPedidosService;
 import com.sigma.ifood.ifoodMercadoApi.service.BuscarTokenValido;
 import com.sigma.ifood.ifoodMercadoApi.service.IntegrarProdutoService;
+import com.sigma.ifood.ifoodMercadoApi.service.VerificarEventoService;
 
 @Service
 @EnableScheduling
@@ -51,22 +53,33 @@ public class AgendamentoService {
 	@Autowired
 	private IntegrarProdutoService integrarProdutoService;	
 	
+	@Autowired
+	private VerificarEventoService verificarEventService;
+	
 	@Scheduled(fixedDelay = CINCO_SEGUNDOS, initialDelay = MEIA_HORA)
 	public void verificarEventos() {
 		
+		//Pegando lista de eventos
 		List<Events> eventos = buscarEventosService.getEventos(buscarToken.getTokenValid());
 		
 		if(eventos != null) {		
 			ObjectMapper mapper = new ObjectMapper();
+			
 			List<Eventos> domainEventos = eventos.stream()
 				.map(evt -> mapper.convertValue(evt, Eventos.class))
 				.collect(Collectors.toList());
 			
+			//Salvando a lista no banco de dados
 			eventosService.salvar(domainEventos);
-			domainEventos.forEach(evento -> System.out.println("Evento -> " + evento.getCodigoPedido()));
+			
+			//Verificando(limpando) a lista de eventos na api
+			List<PedidoVerificado> pedidosVerificados = eventos.stream()
+					.map(evt -> new PedidoVerificado(evt.getId()))
+					.collect(Collectors.toList());
+			
+			verificarEventService.verificaPedido(pedidosVerificados, buscarToken.getTokenValid());
+			
 		}
-		System.out.println("Serviço de verificar eventos executado");
-		
 	}
 	
 	
@@ -76,7 +89,7 @@ public class AgendamentoService {
 		List<ProdutoDomain> lisOfProductIntegrable = produtoDomainService.lisOfProductIntegrable();
 		List<Produto> produtos = productDomainAssembler.toProdutoIfoodMercado(lisOfProductIntegrable);
 		
-		//TESTE nodejs como api
+		//TESTE nodejs como api, sem TOKEN
 		integrarProdutoService.integrarProdutos("", produtos);
 		//integrarProdutoService.integrarProdutos(buscarToken.getTokenValid(), produtos);
 		

@@ -16,7 +16,7 @@ public class EventosService {
 	private EventosReposirory eventosReposirory;
 	
 	@Transactional
-	public void salvar(List<Eventos> eventos) {
-		eventosReposirory.saveAll(eventos);
+	public List<Eventos> salvar(List<Eventos> eventos) {
+		return eventosReposirory.saveAll(eventos);
 	}
 }
