@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -25,16 +27,8 @@ import com.sigma.ifood.ifoodMercadoApi.service.VerificarEventoService;
 
 @Service
 @EnableScheduling
+@EnableAsync
 public class AgendamentoService {
-	private final long SEGUNDO = 1000;
-	private final long CINCO_SEGUNDOS = 5000;
-	private final long DEZ_SEGUNDOS = SEGUNDO * 10;
-	private final long VINTE_SEGUNDOS = SEGUNDO * 20;
-	private final long TRINTA_SEGUNDOS = SEGUNDO * 30;
-	private final long MINUTO = SEGUNDO * 60;
-	private final long MEIA_HORA = MINUTO * 30;
-	private final long HORA = MINUTO * 60;
-
 	@Autowired
 	private BuscarTokenValido buscarToken;
 
@@ -56,12 +50,13 @@ public class AgendamentoService {
 	@Autowired
 	private VerificarEventoService verificarEventService;
 
-	@Scheduled(fixedDelay = CINCO_SEGUNDOS, initialDelay = MEIA_HORA)
+	@Async
+	@Scheduled(fixedDelayString = "${fixeddelay.evento}", initialDelayString = "${initialdelay.busca.evento}")
 	public void verificarEventos() {
 
 		// Pegando lista de eventos
 		List<Events> eventos = buscarEventosService
-				.getEventos(buscarToken.getTokenValid());
+				.getEventos("");  //buscarToken.getTokenValid()
 		
 		if (eventos != null) {
 			ObjectMapper mapper = new ObjectMapper();
@@ -78,17 +73,18 @@ public class AgendamentoService {
 						.map(evt -> new PedidoVerificado(evt.getId()))
 						.collect(Collectors.toList());
 				verificarEventService
-				.verificaPedido(pedidosVerificados, buscarToken.getTokenValid());
+				.verificaPedido(pedidosVerificados, ""); //buscarToken.getTokenValid()
 			}
 		}
 	}
 
-	@Scheduled(fixedDelay = MINUTO, initialDelay = DEZ_SEGUNDOS)
+	@Async
+	@Scheduled(fixedDelayString = "${fixeddelay.produto}" , initialDelayString = "${initialdelay.integra.produto}" )
 	public void integrarProdutos() {
 		System.out.println("Serviço de integração de produto executado ");
 		List<ProdutoDomain> lisOfProductIntegrable = produtoDomainService.lisOfProductIntegrable();
 		List<Produto> produtos = productDomainAssembler.toProdutoIfoodMercado(lisOfProductIntegrable);
-		integrarProdutoService.integrarProdutos(buscarToken.getTokenValid(), produtos);
+		integrarProdutoService.integrarProdutos("", produtos); //buscarToken.getTokenValid()
 		for (ProdutoDomain produto : lisOfProductIntegrable) {
 			produto.setDataUltimaItegracao(LocalDateTime.now());
 			produto.setIntegrar(false);

@@ -20,8 +20,7 @@ public class ProdutoDomain {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private Boolean integrar = true;
-	private LocalDateTime dataUltimaItegracao;	
-	private Boolean cancelado = false;
+	private LocalDateTime dataUltimaItegracao;
 	
 	//Campos para compor o json, abaixo
 	private Long idLoja;	
