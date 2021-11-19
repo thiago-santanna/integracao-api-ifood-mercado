@@ -60,23 +60,25 @@ public class AgendamentoService {
 	public void verificarEventos() {
 
 		// Pegando lista de eventos
-		List<Events> eventos = buscarEventosService.getEventos(buscarToken.getTokenValid());
-
+		List<Events> eventos = buscarEventosService
+				.getEventos(buscarToken.getTokenValid());
+		
 		if (eventos != null) {
 			ObjectMapper mapper = new ObjectMapper();
-
-			List<Eventos> domainEventos = eventos.stream().map(evt -> mapper.convertValue(evt, Eventos.class))
+			List<Eventos> domainEventos = eventos.stream()
+					.map(evt -> mapper.convertValue(evt, Eventos.class))
 					.collect(Collectors.toList());
-
+			
 			// Salvando a lista no banco de dados
 			List<Eventos> EventsSaved = eventosService.salvar(domainEventos);
-
+			
 			// Verificando/Limpando a lista de eventos da api
 			if (EventsSaved != null) {
 				List<PedidoVerificado> pedidosVerificados = EventsSaved.stream()
-						.map(evt -> new PedidoVerificado(evt.getId())).collect(Collectors.toList());
-
-				verificarEventService.verificaPedido(pedidosVerificados, buscarToken.getTokenValid());
+						.map(evt -> new PedidoVerificado(evt.getId()))
+						.collect(Collectors.toList());
+				verificarEventService
+				.verificaPedido(pedidosVerificados, buscarToken.getTokenValid());
 			}
 		}
 	}
@@ -86,12 +88,7 @@ public class AgendamentoService {
 		System.out.println("Serviço de integração de produto executado ");
 		List<ProdutoDomain> lisOfProductIntegrable = produtoDomainService.lisOfProductIntegrable();
 		List<Produto> produtos = productDomainAssembler.toProdutoIfoodMercado(lisOfProductIntegrable);
-
-		// TESTE nodejs como api
-		integrarProdutoService.integrarProdutos("", produtos);
-		// integrarProdutoService.integrarProdutos(buscarToken.getTokenValid(),
-		// produtos);
-
+		integrarProdutoService.integrarProdutos(buscarToken.getTokenValid(), produtos);
 		for (ProdutoDomain produto : lisOfProductIntegrable) {
 			produto.setDataUltimaItegracao(LocalDateTime.now());
 			produto.setIntegrar(false);
