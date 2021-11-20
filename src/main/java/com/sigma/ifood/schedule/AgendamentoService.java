@@ -17,6 +17,7 @@ import com.sigma.ifood.domain.models.pedido.Eventos;
 import com.sigma.ifood.domain.models.produto.ProdutoDomain;
 import com.sigma.ifood.domain.service.EventosService;
 import com.sigma.ifood.domain.service.ProdutoDomainService;
+import com.sigma.ifood.exceptions.ApiException;
 import com.sigma.ifood.ifoodMercadoApi.dto.PedidoVerificado;
 import com.sigma.ifood.ifoodMercadoApi.models.event.Events;
 import com.sigma.ifood.ifoodMercadoApi.models.produto.Produto;
@@ -49,53 +50,71 @@ public class AgendamentoService {
 
 	@Autowired
 	private VerificarEventoService verificarEventService;
+	
+	private String accessToken;
+	
+	@Async
+	@Scheduled(fixedDelayString = "${fixeddelay.evento}", initialDelayString = "${initialdelay.busca.evento}")
+	public void obterTokenSchedule() {
+		this.accessToken = buscarToken.getTokenValid();	
+	}
 
 	@Async
 	@Scheduled(fixedDelayString = "${fixeddelay.evento}", initialDelayString = "${initialdelay.busca.evento}")
 	public void verificarEventos() {
-		System.out.println("Serviço de Busca de eventos iniciado");
-		// Pegando lista de eventos
-		List<Events> eventos = buscarEventosService
-				.getEventos("");  //buscarToken.getTokenValid()
-		
-		if (eventos != null) {
-			System.out.println("salvando eventos iniciado");
-			ObjectMapper mapper = new ObjectMapper();
-			List<Eventos> domainEventos = eventos.stream()
-					.map(evt -> mapper.convertValue(evt, Eventos.class))
-					.collect(Collectors.toList());
+		try {
 			
-			// Salvando a lista no banco de dados
-			List<Eventos> EventsSaved = eventosService.salvar(domainEventos);
-			
-			System.out.println("verificacao de eventos iniciado");
-			
-			// Verificando/Limpando a lista de eventos da api
-			if (EventsSaved != null) {
-				List<PedidoVerificado> pedidosVerificados = EventsSaved.stream()
-						.map(evt -> new PedidoVerificado(evt.getId()))
-						.collect(Collectors.toList());
-				verificarEventService
-				.verificaPedido(pedidosVerificados, ""); //buscarToken.getTokenValid()
+			if(accessToken != null) {
+				System.out.println("Inicou Produto");
+				// Pegando lista de eventos
+				List<Events> eventos = buscarEventosService
+						.getEventos(accessToken);
+				
+				if (eventos != null) {
+					ObjectMapper mapper = new ObjectMapper();
+					List<Eventos> domainEventos = eventos.stream()
+							.map(evt -> mapper.convertValue(evt, Eventos.class))
+							.collect(Collectors.toList());
+					
+					// Salvando a lista no banco de dados
+					List<Eventos> EventsSaved = eventosService.salvar(domainEventos);
+					
+					// Verificando/Limpando a lista de eventos da api
+					if (!EventsSaved.isEmpty()) {
+						List<PedidoVerificado> pedidosVerificados = EventsSaved.stream()
+								.map(evt -> new PedidoVerificado(evt.getId()))
+								.collect(Collectors.toList());
+						verificarEventService
+						.verificaPedido(pedidosVerificados, accessToken);
+					}
+				}	
 			}
+		} catch (ApiException e) {
+			System.out.println(e.getMessage());
 		}
-		System.out.println("Serviço de Busca de eventos finalizado");
 	}
 
 	@Async
 	@Scheduled(fixedDelayString = "${fixeddelay.produto}" , initialDelayString = "${initialdelay.integra.produto}" )
 	public void integrarProdutos() {
-		System.out.println("Serviço de integração de produto iniciado");
-		List<ProdutoDomain> lisOfProductIntegrable = produtoDomainService.lisOfProductIntegrable();
-		List<Produto> produtos = productDomainAssembler.toProdutoIfoodMercado(lisOfProductIntegrable);
-		integrarProdutoService.integrarProdutos("", produtos); //buscarToken.getTokenValid()
-		for (ProdutoDomain produto : lisOfProductIntegrable) {
-			produto.setDataUltimaItegracao(LocalDateTime.now());
-			produto.setIntegrar(false);
-		}
+		try {
+			
+			if(accessToken != null) {
+				System.out.println("Inicou Produto");
+				List<ProdutoDomain> lisOfProductIntegrable = produtoDomainService.lisOfProductIntegrable();
+				List<Produto> produtos = productDomainAssembler.toProdutoIfoodMercado(lisOfProductIntegrable);
+				integrarProdutoService.integrarProdutos(accessToken, produtos);
+				for (ProdutoDomain produto : lisOfProductIntegrable) {
+					produto.setDataUltimaItegracao(LocalDateTime.now());
+					produto.setIntegrar(false);
+				}
 
-		produtoDomainService.updatedProductsIntegrated(lisOfProductIntegrable);
-		System.out.println("Serviço de integração de produto finalizado");
+				produtoDomainService.updatedProductsIntegrated(lisOfProductIntegrable);				
+			}
+
+		} catch (ApiException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
 }

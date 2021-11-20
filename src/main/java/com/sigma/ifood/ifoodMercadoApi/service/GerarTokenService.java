@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.sigma.ifood.ifoodMercadoApi.dto.CredentialsDto;
+import com.sigma.ifood.exceptions.ApiException;
 import com.sigma.ifood.ifoodMercadoApi.dto.AccessTokenDto;
 import com.sigma.ifood.ifoodMercadoApi.models.token.Token;
 
@@ -21,15 +22,19 @@ public class GerarTokenService {
 	private WebClient webClientMercado;
 	
 	private Token getToken(CredentialsDto credenciais) {
-		Mono<Token> monoToken = this.webClientMercado
-				.method(HttpMethod.POST)
-				.uri("oauth/token")
-				.contentType(MediaType.APPLICATION_JSON)
-				.body(Mono.just(credenciais), CredentialsDto.class) 
-				.retrieve()
-				.bodyToMono(Token.class);
-		System.out.println("gerou novo token 1");
-		return monoToken.block();
+		try {
+			Mono<Token> monoToken = this.webClientMercado
+					.method(HttpMethod.POST)
+					.uri("oauth/token")
+					.contentType(MediaType.APPLICATION_JSON)
+					.body(Mono.just(credenciais), CredentialsDto.class) 
+					.retrieve()
+					.bodyToMono(Token.class);
+	
+			return monoToken.block();			
+		} catch (RuntimeException e) {
+			throw new ApiException(e.getMessage(), "getToken");
+		}
 	}
 	
     private boolean tokenValido(LocalDateTime dateExpireIn){    	
@@ -45,7 +50,7 @@ public class GerarTokenService {
 							clientId,
 							clientSecret
 					));
-			System.out.println("gerou novo token 2");
+			//System.out.println("gerou novo token");
 			return new AccessTokenDto(
 					token.getToken_type() + " " + token.getAccess_token(),
 					LocalDateTime.now().plusSeconds(Long.parseLong(token.getExpires_in()))

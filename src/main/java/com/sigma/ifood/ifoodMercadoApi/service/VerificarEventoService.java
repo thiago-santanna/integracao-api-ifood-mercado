@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import com.sigma.ifood.exceptions.ApiException;
 import com.sigma.ifood.ifoodMercadoApi.dto.PedidoVerificado;
 
 @Service
@@ -15,8 +16,9 @@ public class VerificarEventoService {
 	@Autowired
 	private WebClient webClientMercado;
 	
-	public void verificaPedido(List<PedidoVerificado> pedidosVerificado, String accessToken) {		
-		this.webClientMercado
+	public void verificaPedido(List<PedidoVerificado> pedidosVerificado, String accessToken) {
+		try {
+			this.webClientMercado
 			.post()
 			.uri("pedido/eventos/verificado")
 			.contentType(MediaType.APPLICATION_JSON)
@@ -24,6 +26,9 @@ public class VerificarEventoService {
 			.bodyValue(pedidosVerificado)
 			.retrieve()
 			.bodyToMono(Void.class)
-			.block();			
+			.block();				
+		} catch (RuntimeException e) {
+			throw new ApiException(e.getMessage(), "verificaPedido");
+		}		
 	}
 }

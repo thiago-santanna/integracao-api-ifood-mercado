@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sigma.ifood.exceptions.ApiException;
 import com.sigma.ifood.ifoodMercadoApi.models.event.Events;
 
 import reactor.core.publisher.Mono;
@@ -20,20 +21,28 @@ public class BuscaEventoPedidosService {
 	private WebClient webClientMercado;
 	
 	public List<Events> getEventos(String accessToken) {
-		Mono<Object[]> monoEventos = this.webClientMercado
-				.method(HttpMethod.GET)
-				.uri("pedido/eventos")
-				.header("Authorization", accessToken)
-				.retrieve()
-				.bodyToMono(Object[].class)
-				.log();
-		
-		Object[] eventos = monoEventos.block();
-		
-		ObjectMapper mapper = new ObjectMapper();
-		
-		return Arrays.stream(eventos)
-				  .map(object -> mapper.convertValue(object, Events.class))
-				  .collect(Collectors.toList());
+		try {
+			Mono<Object[]> monoEventos = this.webClientMercado
+					.method(HttpMethod.GET)
+					.uri("pedido/eventos")
+					.header("Authorization", accessToken)
+					.retrieve()
+					.bodyToMono(Object[].class)
+					.log();
+			
+			Object[] eventos = monoEventos.block();
+
+			if(eventos.length > 0) {
+				ObjectMapper mapper = new ObjectMapper();
+				
+				return Arrays.stream(eventos)
+						.map(object -> mapper.convertValue(object, Events.class))
+						.collect(Collectors.toList());				
+			}
+			
+			return null;
+		} catch (RuntimeException e) {
+			throw new ApiException(e.getMessage(), "getEventos");
+		}
 	}
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.sigma.ifood.domain.models.config.ConfigApp;
 import com.sigma.ifood.domain.service.ConfigAppService;
+import com.sigma.ifood.exceptions.ApiException;
 import com.sigma.ifood.ifoodMercadoApi.dto.AccessTokenDto;
 
 @Service
@@ -20,29 +21,32 @@ public class BuscarTokenValido {
 	
 	
 	public String getTokenValid() {
-		//Se um dia for precisar usar mais de uma credencial, 
-		//fazer um controller e o client deve informar qual app quer buscar
-		ConfigApp configApp = configAppService.buscar(1L);
-		
-		//Access Token atual se após testado ainda for válido será usado, 
-		//caso contrário será atualizado e salvo no banco
-		LocalDateTime expireIn = configApp.getExpireIn();
-		String accessToken = configApp.getToken();
-		
-		String clientId = configApp.getClientIdIfoodMercado();
-		String clientSecret = configApp.getClientSecretIfoodMercado(); 
-		
-		AccessTokenDto accessTokenDto = gerarTokenService.gerarOuValidarToken(expireIn, clientId, clientSecret);
-		
-		if(accessTokenDto != null) {
-			expireIn = accessTokenDto.getExpireIn();
-			accessToken = accessTokenDto.getAccessToken();
-			System.out.println("Salvou cofigurações");
-			configApp.setExpireIn(expireIn);
-			configApp.setToken(accessToken);
-			configAppService.salvar(configApp);			
+		try {
+			//Se um dia for precisar usar mais de uma credencial, 
+			//fazer um controller e o client deve informar qual app quer buscar
+			ConfigApp configApp = configAppService.buscar(1L);
+			
+			//Access Token atual se após testado ainda for válido será usado, 
+			//caso contrário será atualizado e salvo no banco
+			LocalDateTime expireIn = configApp.getExpireIn();
+			String accessToken = configApp.getToken();
+			
+			String clientId = configApp.getClientIdIfoodMercado();
+			String clientSecret = configApp.getClientSecretIfoodMercado(); 
+			
+			AccessTokenDto accessTokenDto = gerarTokenService.gerarOuValidarToken(expireIn, clientId, clientSecret);
+			
+			if(accessTokenDto != null) {
+				expireIn = accessTokenDto.getExpireIn();
+				accessToken = accessTokenDto.getAccessToken();
+				configApp.setExpireIn(expireIn);
+				configApp.setToken(accessToken);
+				configAppService.salvar(configApp);			
+			}
+			
+			return accessToken;			
+		} catch (RuntimeException e) {
+			throw new ApiException(e.getMessage(), "getTokenValid");
 		}
-		
-		return accessToken;
 	};
 }

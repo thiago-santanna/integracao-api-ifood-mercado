@@ -1,9 +1,15 @@
 package com.sigma.ifood.domain.models.config;
 
-import lombok.Data;
-
-import javax.persistence.*;
 import java.time.LocalDateTime;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import lombok.Data;
 
 @Data
 @Entity()
@@ -16,10 +22,7 @@ public class ConfigApp {
     private String clientSecretIfoodMercado;
     @Column(columnDefinition = "TEXT")
     private String token;
-    private LocalDateTime expireIn;
-	/*
-	 * private Long intervaloConsultaPedido; private Long intervaloIntegrarProduto;
-	 */
+    private LocalDateTime expireIn;   
 
     public ConfigApp(){}
 }
