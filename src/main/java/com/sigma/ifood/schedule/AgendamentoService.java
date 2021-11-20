@@ -53,12 +53,13 @@ public class AgendamentoService {
 	@Async
 	@Scheduled(fixedDelayString = "${fixeddelay.evento}", initialDelayString = "${initialdelay.busca.evento}")
 	public void verificarEventos() {
-
+		System.out.println("Serviço de Busca de eventos iniciado");
 		// Pegando lista de eventos
 		List<Events> eventos = buscarEventosService
 				.getEventos("");  //buscarToken.getTokenValid()
 		
 		if (eventos != null) {
+			System.out.println("salvando eventos iniciado");
 			ObjectMapper mapper = new ObjectMapper();
 			List<Eventos> domainEventos = eventos.stream()
 					.map(evt -> mapper.convertValue(evt, Eventos.class))
@@ -66,6 +67,8 @@ public class AgendamentoService {
 			
 			// Salvando a lista no banco de dados
 			List<Eventos> EventsSaved = eventosService.salvar(domainEventos);
+			
+			System.out.println("verificacao de eventos iniciado");
 			
 			// Verificando/Limpando a lista de eventos da api
 			if (EventsSaved != null) {
@@ -76,12 +79,13 @@ public class AgendamentoService {
 				.verificaPedido(pedidosVerificados, ""); //buscarToken.getTokenValid()
 			}
 		}
+		System.out.println("Serviço de Busca de eventos finalizado");
 	}
 
 	@Async
 	@Scheduled(fixedDelayString = "${fixeddelay.produto}" , initialDelayString = "${initialdelay.integra.produto}" )
 	public void integrarProdutos() {
-		System.out.println("Serviço de integração de produto executado ");
+		System.out.println("Serviço de integração de produto iniciado");
 		List<ProdutoDomain> lisOfProductIntegrable = produtoDomainService.lisOfProductIntegrable();
 		List<Produto> produtos = productDomainAssembler.toProdutoIfoodMercado(lisOfProductIntegrable);
 		integrarProdutoService.integrarProdutos("", produtos); //buscarToken.getTokenValid()
@@ -91,6 +95,7 @@ public class AgendamentoService {
 		}
 
 		produtoDomainService.updatedProductsIntegrated(lisOfProductIntegrable);
+		System.out.println("Serviço de integração de produto finalizado");
 	}
 
 }
