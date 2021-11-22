@@ -12,8 +12,8 @@
 	<groupId>com.tsswebapps</groupId>
 	<artifactId>rba-sistemas</artifactId>
 	<packaging>jar</packaging>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>rba-sistemas</name>
+	<version>1.0.0-SNAPSHOT</version>
+	<name>ifood-mercado</name>
 	<description>Acesso a api iFood mercado</description>
 	<properties>
 		<java.version>11</java.version>
