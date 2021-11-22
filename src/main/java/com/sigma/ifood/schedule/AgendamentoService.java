@@ -54,7 +54,7 @@ public class AgendamentoService {
 	private String accessToken;
 	
 	@Async
-	@Scheduled(fixedDelayString = "${fixeddelay.evento}", initialDelayString = "${initialdelay.busca.evento}")
+	@Scheduled(fixedDelayString = "${fixeddelay.token}", initialDelayString = "${initialdelay.busca.token}")
 	public void obterTokenSchedule() {
 		this.accessToken = buscarToken.getTokenValid();	
 	}
@@ -65,7 +65,6 @@ public class AgendamentoService {
 		try {
 			
 			if(accessToken != null) {
-				System.out.println("Inicou Produto");
 				// Pegando lista de eventos
 				List<Events> eventos = buscarEventosService
 						.getEventos(accessToken);
@@ -100,7 +99,6 @@ public class AgendamentoService {
 		try {
 			
 			if(accessToken != null) {
-				System.out.println("Inicou Produto");
 				List<ProdutoDomain> lisOfProductIntegrable = produtoDomainService.lisOfProductIntegrable();
 				List<Produto> produtos = productDomainAssembler.toProdutoIfoodMercado(lisOfProductIntegrable);
 				integrarProdutoService.integrarProdutos(accessToken, produtos);
@@ -108,7 +106,6 @@ public class AgendamentoService {
 					produto.setDataUltimaItegracao(LocalDateTime.now());
 					produto.setIntegrar(false);
 				}
-
 				produtoDomainService.updatedProductsIntegrated(lisOfProductIntegrable);				
 			}
 
