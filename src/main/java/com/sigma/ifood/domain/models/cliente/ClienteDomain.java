@@ -6,8 +6,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -17,13 +15,10 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "clientes")
-public class Cliente {
+public class ClienteDomain {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	private Long idCliBase;
 	
 	@Column(length = 150)
 	private String nome;
@@ -43,6 +38,7 @@ public class Cliente {
 	@Column(length = 50)
 	private String telefoneCelular;
 	
-	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
-	private List<EnderecoCliente> enderecosCliente = new ArrayList<>();
+	@Column(name = "enderecos_cliente")
+	@OneToMany(mappedBy = "clienteDomain", cascade = CascadeType.ALL)
+	private List<EnderecoCliente> enderecos = new ArrayList<>();
 }

@@ -14,11 +14,10 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "itens_pedido")
-public class ItemPedido {
+public class ItemPedidoDomain {
 	
 	@Id
 	private Long id;
-	private Long idItemPedido;
 	
 	@Column(name = "valueIndex")
 	private String index;
@@ -48,5 +47,5 @@ public class ItemPedido {
 	
 	@ManyToOne
 	@JoinColumn(name = "pedido_id", referencedColumnName = "id")
-	private Pedido pedido;
+	private PedidoDomain pedidoDomain;
 }

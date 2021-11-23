@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Embeddable
 @Data
-public class Parceiro {
+public class ParceiroDomain {
 	@Column(name = "parceiro_codigo_entrega", length = 50)
 	private String codigoEntrega;
 	

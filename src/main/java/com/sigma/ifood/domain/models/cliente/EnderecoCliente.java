@@ -1,16 +1,16 @@
 package com.sigma.ifood.domain.models.cliente;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.sigma.ifood.domain.models.endereco.Endereco;
+import com.sigma.ifood.domain.models.endereco.EnderecoDomain;
 
 import lombok.Data;
 
@@ -27,9 +27,8 @@ public class EnderecoCliente {
 	
 	@ManyToOne
 	@JoinColumn(name = "cliente_id", referencedColumnName = "id")
-	private Cliente cliente;
+	private ClienteDomain clienteDomain;
 	
-	@OneToOne
-	@JoinColumn(name = "endereco_id", referencedColumnName = "id")
-	private Endereco enderecoLoja;	
+	@Embedded
+	private EnderecoDomain endereco;	
 }

@@ -12,16 +12,21 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.sigma.ifood.domain.assemblers.ProductDomainAssembler;
 import com.sigma.ifood.domain.models.pedido.Eventos;
+import com.sigma.ifood.domain.models.pedido.PedidoDomain;
 import com.sigma.ifood.domain.models.produto.ProdutoDomain;
 import com.sigma.ifood.domain.service.EventosService;
+import com.sigma.ifood.domain.service.PedidoService;
 import com.sigma.ifood.domain.service.ProdutoDomainService;
 import com.sigma.ifood.exceptions.ApiException;
 import com.sigma.ifood.ifoodMercadoApi.dto.PedidoVerificado;
 import com.sigma.ifood.ifoodMercadoApi.models.event.Events;
+import com.sigma.ifood.ifoodMercadoApi.models.pedido.Pedido;
 import com.sigma.ifood.ifoodMercadoApi.models.produto.Produto;
 import com.sigma.ifood.ifoodMercadoApi.service.BuscaEventoPedidosService;
+import com.sigma.ifood.ifoodMercadoApi.service.BuscarPedidoService;
 import com.sigma.ifood.ifoodMercadoApi.service.BuscarTokenValido;
 import com.sigma.ifood.ifoodMercadoApi.service.IntegrarProdutoService;
 import com.sigma.ifood.ifoodMercadoApi.service.VerificarEventoService;
@@ -49,6 +54,12 @@ public class AgendamentoService {
 	private IntegrarProdutoService integrarProdutoService;
 
 	@Autowired
+	private BuscarPedidoService buscarPedidoService;
+	
+	@Autowired
+	private PedidoService pedidoService;
+	
+	@Autowired
 	private VerificarEventoService verificarEventService;
 	
 	private String accessToken;
@@ -71,12 +82,21 @@ public class AgendamentoService {
 				
 				if (eventos != null) {
 					ObjectMapper mapper = new ObjectMapper();
+					mapper.registerModule(new JavaTimeModule());
 					List<Eventos> domainEventos = eventos.stream()
 							.map(evt -> mapper.convertValue(evt, Eventos.class))
 							.collect(Collectors.toList());
 					
 					// Salvando a lista no banco de dados
 					List<Eventos> EventsSaved = eventosService.salvar(domainEventos);
+					
+					//Salvando pedido
+					for (Events event : eventos) {
+						Pedido pedido = buscarPedidoService.getPedido(accessToken, event.getCodigoPedido());						
+						PedidoDomain pedidoDomain = Pedido.toPedidoDomain(pedido);
+						pedidoService.salvar(pedidoDomain);
+						System.out.println("Salvo");
+					}
 					
 					// Verificando/Limpando a lista de eventos da api
 					if (!EventsSaved.isEmpty()) {

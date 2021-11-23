@@ -1,6 +1,7 @@
 package com.sigma.ifood.domain.models.pedido;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -22,20 +23,19 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.sigma.ifood.domain.enums.StatusEventoPedido;
-import com.sigma.ifood.domain.models.cliente.Cliente;
-import com.sigma.ifood.domain.models.endereco.Endereco;
-import com.sigma.ifood.domain.models.loja.Loja;
+import com.sigma.ifood.domain.models.cliente.ClienteDomain;
+import com.sigma.ifood.domain.models.endereco.EnderecoDomain;
+import com.sigma.ifood.domain.models.loja.LojaDomain;
 
 import lombok.Data;
 
 @Data
 @Entity
 @Table(name = "pedidos_integracao")
-public class Pedido {
+public class PedidoDomain {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
+	private Long id;	
 	private Long idLoja;
 	private Long idCliente;
 	
@@ -43,15 +43,14 @@ public class Pedido {
 	private String codigo;
 	
 	@Column(length = 50)
-	private String codigoLoja;
+	private String codigoLoja;	
 	
-	
-	private LocalDateTime data;
+	private LocalDate data;
 	private LocalTime hora;
 	private LocalDateTime dataHora;
-	private LocalDateTime agendamentoDataInicio;
+	private LocalDate agendamentoDataInicio;
 	private LocalTime agendamentoHoraInicio;
-	private LocalDateTime agendamentoDataFim;
+	private LocalDate agendamentoDataFim;
 	private LocalTime agendamentoHoraFim;
 	private Boolean entrega;
 	private Boolean cpfNaNota;
@@ -77,26 +76,22 @@ public class Pedido {
 	private BigDecimal valorCorrigido;
 	
 	@Embedded
-	private Parceiro parceiro;
+	private ParceiroDomain parceiroDomain;
 	
 	@Column(length = 100)
 	private String plataforma;
-		
-	@Column(name = "numero_endereco_entrega", length = 10)
-	private String numero;
 	
-	@OneToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "endereco_id", referencedColumnName = "id")
-	private Endereco enderecoEntrega;
+	@Embedded
+	private EnderecoDomain enderecoEntrega;
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "loja_id", referencedColumnName = "id")
-	private Loja loja;
+	private LojaDomain lojaDomain;
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "cliente_id", referencedColumnName = "id")
-	private Cliente cliente;
+	private ClienteDomain clienteDomain;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "pedido", cascade = CascadeType.ALL)
-	private List<ItemPedido> items = new ArrayList<>();	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "pedidoDomain", cascade = CascadeType.ALL)
+	private List<ItemPedidoDomain> items = new ArrayList<>();	
 }
