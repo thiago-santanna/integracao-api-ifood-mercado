@@ -10,7 +10,7 @@ public class Loja {
 	private String nome;
 	private String cnpj;
 	private String status;
-	private Endereco enderecoLoja;
+	private Endereco endereco;
 	private Rede rede;
 }
 

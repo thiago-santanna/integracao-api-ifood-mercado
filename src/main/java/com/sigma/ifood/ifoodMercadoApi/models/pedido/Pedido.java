@@ -107,13 +107,13 @@ public class Pedido {
 		lojaDomain.setNome(pedido.getLoja().getNome());
 		lojaDomain.setCnpj(pedido.getLoja().getCnpj());
 		lojaDomain.setStatus(pedido.getLoja().getStatus());
-		lojaDomain.setNumero(pedido.getLoja().getEnderecoLoja().getNumero());
-		lojaDomain.setCep(pedido.getLoja().getEnderecoLoja().getCep());
-		lojaDomain.setLogradouro(pedido.getLoja().getEnderecoLoja().getLogradouro());
-		lojaDomain.setBairro(pedido.getLoja().getEnderecoLoja().getBairro());
-		lojaDomain.setCidade(pedido.getLoja().getEnderecoLoja().getCidade());
-		lojaDomain.setUf(pedido.getLoja().getEnderecoLoja().getUf());
-		lojaDomain.setEstado(pedido.getLoja().getEnderecoLoja().getEstado());
+		lojaDomain.setNumero(pedido.getLoja().getEndereco().getNumero());
+		lojaDomain.setCep(pedido.getLoja().getEndereco().getCep());
+		lojaDomain.setLogradouro(pedido.getLoja().getEndereco().getLogradouro());
+		lojaDomain.setBairro(pedido.getLoja().getEndereco().getBairro());
+		lojaDomain.setCidade(pedido.getLoja().getEndereco().getCidade());
+		lojaDomain.setUf(pedido.getLoja().getEndereco().getUf());
+		lojaDomain.setEstado(pedido.getLoja().getEndereco().getEstado());
 		lojaDomain.setRedeId(pedido.getLoja().getRede().getId());
 		lojaDomain.setRedeNome(pedido.getLoja().getRede().getNome());
 		pedidoDomain.setLojaDomain(lojaDomain);		
@@ -130,18 +130,19 @@ public class Pedido {
 		
 		List<EnderecoCliente> enderecosCliente = new ArrayList<>();						
 		for (Endereco endereco : pedido.getCliente().getEnderecos()) {
+			System.out.println(endereco);
 			EnderecoDomain enderecoClienteDomain = new EnderecoDomain();
-			enderecoDomain.setIdEnderecoEntrega(endereco.getId());
-			enderecoDomain.setCep(endereco.getCep());
-			enderecoDomain.setLogradouro(endereco.getLogradouro());
-			enderecoDomain.setNumero(endereco.getNumero());
-			enderecoDomain.setComplemento(endereco.getComplemento());
-			enderecoDomain.setBairro(endereco.getBairro());
-			enderecoDomain.setCidade(endereco.getCidade());
-			enderecoDomain.setUf(endereco.getUf());
-			enderecoDomain.setEstado(endereco.getEstado());
-			enderecoDomain.setLatitude(endereco.getLatitude());
-			enderecoDomain.setLongitude(endereco.getLongitude());
+			enderecoClienteDomain.setIdEnderecoEntrega(endereco.getId());
+			enderecoClienteDomain.setCep(endereco.getCep());
+			enderecoClienteDomain.setLogradouro(endereco.getLogradouro());
+			enderecoClienteDomain.setNumero(endereco.getNumero());
+			enderecoClienteDomain.setComplemento(endereco.getComplemento());
+			enderecoClienteDomain.setBairro(endereco.getBairro());
+			enderecoClienteDomain.setCidade(endereco.getCidade());
+			enderecoClienteDomain.setUf(endereco.getUf());
+			enderecoClienteDomain.setEstado(endereco.getEstado());
+			enderecoClienteDomain.setLatitude(endereco.getLatitude());
+			enderecoClienteDomain.setLongitude(endereco.getLongitude());
 			
 			EnderecoCliente enderecoCliente = new EnderecoCliente();
 			enderecoCliente.setNumero(endereco.getNumero());

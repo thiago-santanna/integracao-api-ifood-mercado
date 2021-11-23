@@ -22,7 +22,7 @@ public class BuscarPedidoService {
 					.retrieve()
 					.bodyToMono(Pedido.class)
 					.block();
-			System.out.println(pedido);
+			//System.out.println(pedido);
 			return pedido;			
 		} catch (RuntimeException e) {
 			throw new ApiException(e.getMessage(), "getPedido");
