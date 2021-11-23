@@ -12,6 +12,7 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -84,18 +85,18 @@ public class Pedido {
 	@Column(name = "numero_endereco_entrega", length = 10)
 	private String numero;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "endereco_id", referencedColumnName = "id")
 	private Endereco enderecoEntrega;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "loja_id", referencedColumnName = "id")
 	private Loja loja;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "cliente_id", referencedColumnName = "id")
 	private Cliente cliente;
 	
-	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "pedido", cascade = CascadeType.ALL)
 	private List<ItemPedido> items = new ArrayList<>();	
 }

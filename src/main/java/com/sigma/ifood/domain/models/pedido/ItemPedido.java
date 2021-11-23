@@ -19,6 +19,8 @@ public class ItemPedido {
 	@Id
 	private Long id;
 	private Long idItemPedido;
+	
+	@Column(name = "valueIndex")
 	private String index;
 	
 	@Column(length = 50)
