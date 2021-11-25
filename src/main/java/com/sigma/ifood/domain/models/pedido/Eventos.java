@@ -4,7 +4,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.sigma.ifood.domain.enums.StatusEventoPedido;
@@ -26,4 +28,7 @@ public class Eventos {
 	private StatusEventoPedido status;
 	
 	private Integer idLoja;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	private PedidoDomain pedido;
 }
