@@ -1,0 +1,61 @@
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v2.5.5)
+
+2021-12-04 15:53:24.701  INFO 20392 --- [           main] com.sigma.ifood.RbaSistemasApplication   : Starting RbaSistemasApplication v1.0.0-SNAPSHOT using Java 11.0.10 on THIAGO-DELL with PID 20392 (C:\Dev\Java\workspace\integracao-api-ifood-mercado\target\rba-sistemas-1.0.0-SNAPSHOT.jar started by THIAGO-DELL$ in C:\Dev\Java\workspace\integracao-api-ifood-mercado\target)
+2021-12-04 15:53:24.734  INFO 20392 --- [           main] com.sigma.ifood.RbaSistemasApplication   : No active profile set, falling back to default profiles: default
+2021-12-04 15:53:36.585  INFO 20392 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-12-04 15:53:38.398  INFO 20392 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 1736 ms. Found 4 JPA repository interfaces.
+2021-12-04 15:53:45.580  INFO 20392 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2021-12-04 15:53:45.823  INFO 20392 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-12-04 15:53:45.825  INFO 20392 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.53]
+2021-12-04 15:53:46.610  INFO 20392 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2021-12-04 15:53:46.610  INFO 20392 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 21333 ms
+2021-12-04 15:53:48.170  INFO 20392 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-12-04 15:53:48.648  INFO 20392 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.32.Final
+2021-12-04 15:53:49.451  INFO 20392 --- [           main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2021-12-04 15:53:50.304  INFO 20392 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2021-12-04 15:53:51.332  INFO 20392 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2021-12-04 15:53:51.410  INFO 20392 --- [           main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+2021-12-04 15:53:56.875  INFO 20392 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-12-04 15:53:56.919  INFO 20392 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-12-04 15:54:08.671  WARN 20392 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2021-12-04 15:54:12.008  INFO 20392 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2021-12-04 15:54:12.221  INFO 20392 --- [           main] com.sigma.ifood.RbaSistemasApplication   : Started RbaSistemasApplication in 52.301 seconds (JVM running for 58.786)
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v2.5.5)
+
+2021-12-04 16:03:13.966  INFO 15852 --- [           main] com.sigma.ifood.RbaSistemasApplication   : Starting RbaSistemasApplication v1.0.0-SNAPSHOT using Java 11.0.10 on THIAGO-DELL with PID 15852 (C:\Dev\Java\workspace\integracao-api-ifood-mercado\target\rba-sistemas-1.0.0-SNAPSHOT.jar started by THIAGO-DELL$ in C:\Dev\Java\workspace\integracao-api-ifood-mercado\target)
+2021-12-04 16:03:13.984  INFO 15852 --- [           main] com.sigma.ifood.RbaSistemasApplication   : No active profile set, falling back to default profiles: default
+2021-12-04 16:03:21.738  INFO 15852 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-12-04 16:03:23.374  INFO 15852 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 1538 ms. Found 4 JPA repository interfaces.
+2021-12-04 16:03:31.171  INFO 15852 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2021-12-04 16:03:31.248  INFO 15852 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-12-04 16:03:31.249  INFO 15852 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.53]
+2021-12-04 16:03:31.647  INFO 15852 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2021-12-04 16:03:31.648  INFO 15852 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 17059 ms
+2021-12-04 16:03:32.974  INFO 15852 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-12-04 16:03:33.396  INFO 15852 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.32.Final
+2021-12-04 16:03:34.138  INFO 15852 --- [           main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2021-12-04 16:03:34.788  INFO 15852 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2021-12-04 16:03:35.889  INFO 15852 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2021-12-04 16:03:35.964  INFO 15852 --- [           main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+2021-12-04 16:03:40.969  INFO 15852 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-12-04 16:03:41.023  INFO 15852 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-12-04 16:03:49.487  WARN 15852 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2021-12-04 16:03:51.454  INFO 15852 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2021-12-04 16:03:51.519  INFO 15852 --- [           main] com.sigma.ifood.RbaSistemasApplication   : Started RbaSistemasApplication in 42.702 seconds (JVM running for 46.755)
+2021-12-04 16:06:55.406  INFO 15852 --- [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2021-12-04 16:06:55.414  INFO 15852 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2021-12-04 16:06:55.524  INFO 15852 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

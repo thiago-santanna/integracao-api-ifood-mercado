@@ -1,0 +1,11 @@
+2021-12-04 15:42:40,069 DEBUG - Starting WinSW in console mode
+2021-12-04 15:42:45,992 DEBUG - Starting WinSW in console mode
+2021-12-04 15:42:46,120 FATAL - The configuration file cound not be loaded. <name> is missing in configuration XML
+System.IO.InvalidDataException: <name> is missing in configuration XML
+   at WinSW.XmlServiceConfig.SingleElement(String tagName, Boolean optional)
+   at WinSW.XmlServiceConfig.SingleElement(String tagName)
+   at WinSW.XmlServiceConfig.get_DisplayName()
+   at WinSW.FormatExtensions.Format(IServiceConfig config)
+   at WinSW.Program.<Run>g__Install|5_0(<>c__DisplayClass5_0& )
+   at WinSW.Program.Run(String[] argsArray, IServiceConfig config)
+   at WinSW.Program.Main(String[] args)
