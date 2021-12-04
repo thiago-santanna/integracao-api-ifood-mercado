@@ -1,5 +1,5 @@
 package com.sigma.ifood.schedule;
-
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -115,12 +115,13 @@ public class AgendamentoService {
 
 	@Async
 	@Scheduled(fixedDelayString = "${fixeddelay.produto}" , initialDelayString = "${initialdelay.integra.produto}" )
-	public void integrarProdutos() {
+	public void integrarProdutos() throws IOException {
 		try {
 			
 			if(accessToken != null) {
 				List<ProdutoDomain> lisOfProductIntegrable = produtoDomainService.lisOfProductIntegrable();
 				List<Produto> produtos = productDomainAssembler.toProdutoIfoodMercado(lisOfProductIntegrable);
+				
 				integrarProdutoService.integrarProdutos(accessToken, produtos);
 				for (ProdutoDomain produto : lisOfProductIntegrable) {
 					produto.setDataUltimaItegracao(LocalDateTime.now());

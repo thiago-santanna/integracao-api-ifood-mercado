@@ -1,6 +1,7 @@
 package com.sigma.ifood.domain.models.produto;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -44,7 +45,7 @@ public class ProdutoDomain {
 	private String volume;
 	
 	
-	private Integer codigoBarra;
+	private BigInteger codigoBarra;
 	
 	@Column(length = 150)
 	private String nome;

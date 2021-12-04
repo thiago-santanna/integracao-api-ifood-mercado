@@ -1,5 +1,6 @@
 package com.sigma.ifood.ifoodMercadoApi.service;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ public class IntegrarProdutoService {
 	@Autowired
 	private WebClient webClientMercado;
 
-	public void integrarProdutos(String accessToken, List<Produto> produtos) {
+	public void integrarProdutos(String accessToken, List<Produto> produtos) throws IOException {
 		try {
 			this.webClientMercado
 			.post()
@@ -28,7 +29,7 @@ public class IntegrarProdutoService {
 			.bodyToMono(Void.class)
 			.block();			
 		} catch (RuntimeException e) {
-			throw new ApiException(e.getMessage(), "integrarProdutos");
+			throw new ApiException(e.getMessage(), "integrarProdutos", produtos);
 		}
 	}
 

@@ -1,6 +1,7 @@
 package com.sigma.ifood.ifoodMercadoApi.models.produto;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 
 import lombok.Data;
 
@@ -13,7 +14,7 @@ public class Produto {
 	private String marca;
 	private String unidade;
 	private String volume;
-	private Integer codigoBarra;
+	private BigInteger codigoBarra;
 	private String nome;	
 	private BigDecimal valor;
 	private BigDecimal valorPromocao;
