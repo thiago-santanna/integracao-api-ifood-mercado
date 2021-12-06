@@ -1,5 +1,6 @@
 package com.sigma.ifood.ifoodMercadoApi.service;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class GerarTokenService {
 	@Autowired
 	private WebClient webClientMercado;
 	
-	private Token getToken(CredentialsDto credenciais) {
+	private Token getToken(CredentialsDto credenciais) throws IOException {
 		try {
 			Mono<Token> monoToken = this.webClientMercado
 					.method(HttpMethod.POST)
@@ -33,7 +34,7 @@ public class GerarTokenService {
 	
 			return monoToken.block();			
 		} catch (RuntimeException e) {
-			throw new ApiException(e.getMessage(), "getToken");
+			throw new ApiException(e.getMessage(), "getToken", credenciais);
 		}
 	}
 	
@@ -42,7 +43,7 @@ public class GerarTokenService {
         return !dateExpireIn.isBefore(LocalDateTime.now());
     }
     
-    public AccessTokenDto gerarOuValidarToken(LocalDateTime expireIn, String clientId, String clientSecret) {
+    public AccessTokenDto gerarOuValidarToken(LocalDateTime expireIn, String clientId, String clientSecret) throws IOException {
     	
 		if (!tokenValido(expireIn)){
 			Token token = this.getToken(

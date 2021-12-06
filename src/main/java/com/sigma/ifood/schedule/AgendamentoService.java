@@ -66,13 +66,13 @@ public class AgendamentoService {
 	
 	@Async
 	@Scheduled(fixedDelayString = "${fixeddelay.token}", initialDelayString = "${initialdelay.busca.token}")
-	public void obterTokenSchedule() {
+	public void obterTokenSchedule() throws IOException {
 		this.accessToken = buscarToken.getTokenValid();	
 	}
 
 	@Async
 	@Scheduled(fixedDelayString = "${fixeddelay.evento}", initialDelayString = "${initialdelay.busca.evento}")
-	public void verificarEventos() {
+	public void verificarEventos() throws IOException {
 		try {
 			
 			if(accessToken != null) {
@@ -95,7 +95,6 @@ public class AgendamentoService {
 						Pedido pedido = buscarPedidoService.getPedido(accessToken, event.getCodigoPedido());						
 						PedidoDomain pedidoDomain = Pedido.toPedidoDomain(pedido);
 						pedidoService.salvar(pedidoDomain);
-						System.out.println("Salvo");
 					}
 					
 					// Verificando/Limpando a lista de eventos da api

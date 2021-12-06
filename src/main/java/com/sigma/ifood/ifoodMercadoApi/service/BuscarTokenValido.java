@@ -1,5 +1,6 @@
 package com.sigma.ifood.ifoodMercadoApi.service;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ public class BuscarTokenValido {
 	private GerarTokenService gerarTokenService;
 	
 	
-	public String getTokenValid() {
+	public String getTokenValid() throws IOException {
 		try {
 			//Se um dia for precisar usar mais de uma credencial, 
 			//fazer um controller e o client deve informar qual app quer buscar

@@ -1,5 +1,6 @@
 package com.sigma.ifood.ifoodMercadoApi.service;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ public class VerificarEventoService {
 	@Autowired
 	private WebClient webClientMercado;
 	
-	public void verificaPedido(List<PedidoVerificado> pedidosVerificado, String accessToken) {
+	public void verificaPedido(List<PedidoVerificado> pedidosVerificado, String accessToken) throws IOException {
 		try {
 			this.webClientMercado
 			.post()
@@ -28,7 +29,7 @@ public class VerificarEventoService {
 			.bodyToMono(Void.class)
 			.block();				
 		} catch (RuntimeException e) {
-			throw new ApiException(e.getMessage(), "verificaPedido");
+			throw new ApiException(e.getMessage(), "verificaPedido", pedidosVerificado, "flag");
 		}		
 	}
 }

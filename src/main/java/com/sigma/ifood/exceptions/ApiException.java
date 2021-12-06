@@ -5,6 +5,8 @@ import java.util.List;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sigma.ifood.ifoodMercadoApi.dto.CredentialsDto;
+import com.sigma.ifood.ifoodMercadoApi.dto.PedidoVerificado;
 import com.sigma.ifood.ifoodMercadoApi.models.produto.Produto;
 
 public class ApiException extends RuntimeException {
@@ -26,4 +28,23 @@ public class ApiException extends RuntimeException {
 		String productJson = jkObjectMapper.writeValueAsString(produtos);
 		System.out.println(productJson);
 	}
+	
+	public ApiException(String message, String metodo, List<PedidoVerificado> pedidosVerificado, String flag) throws IOException {
+		this("Erro ao consumir a API => ("+ metodo + ")"+"\nErro: "+ message);
+		
+		ObjectMapper jkObjectMapper = new ObjectMapper();
+		String productJson = jkObjectMapper.writeValueAsString(pedidosVerificado);
+		System.out.println(productJson);
+	}	
+	
+	public ApiException(String message, String metodo, CredentialsDto credenciais) throws IOException {
+		this("Erro ao consumir a API => ("+ metodo + ")"+"\nErro: "+ message);
+		
+		ObjectMapper jkObjectMapper = new ObjectMapper();
+		String productJson = jkObjectMapper.writeValueAsString(credenciais);
+		System.out.println(productJson);
+	}
+	
+
+	
 }
