@@ -3,13 +3,14 @@ package com.sigma.ifood.exceptions;
 import java.io.IOException;
 import java.util.List;
 
+import org.springframework.web.reactive.function.client.WebClientException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sigma.ifood.ifoodMercadoApi.dto.CredentialsDto;
 import com.sigma.ifood.ifoodMercadoApi.dto.PedidoVerificado;
 import com.sigma.ifood.ifoodMercadoApi.models.produto.Produto;
 
-public class ApiException extends RuntimeException {
+public class ApiException extends WebClientException {
 
 	private static final long serialVersionUID = 1L;
 

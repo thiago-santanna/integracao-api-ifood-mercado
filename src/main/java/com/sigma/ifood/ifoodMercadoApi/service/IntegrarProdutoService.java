@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -26,8 +27,13 @@ public class IntegrarProdutoService {
 			.header("Authorization", accessToken)
 			.bodyValue(produtos)
 			.retrieve()
-			.bodyToMono(Void.class)
-			.block();			
+			.onStatus(
+					HttpStatus::is4xxClientError, clinetResponse -> clinetResponse.bodyToMono(String.class).map(
+					body -> new ApiException("Codigo: "+clinetResponse.statusCode().toString() + "\n"+ body))
+			)
+			.bodyToMono(String.class)
+			.block();	
+		
 		} catch (RuntimeException e) {
 			throw new ApiException(e.getMessage(), "integrarProdutos", produtos);
 		}

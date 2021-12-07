@@ -1,11 +1,14 @@
 package com.sigma.ifood.ifoodMercadoApi.models.produto;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import lombok.Data;
 
 @Data
+@JsonInclude(Include.NON_NULL)
 public class Produto {
 	private Long idLoja;	
 	private String departamento;
@@ -14,7 +17,7 @@ public class Produto {
 	private String marca;
 	private String unidade;
 	private String volume;
-	private BigInteger codigoBarra;
+	private String codigoBarra;
 	private String nome;	
 	private BigDecimal valor;
 	private BigDecimal valorPromocao;
@@ -25,8 +28,8 @@ public class Produto {
 	private BigDecimal quantidadeAtacado;	
 	private String descricao;
 	private Boolean ativo;
-	private Integer plu;
+	private String plu;
 	private Boolean validadeProxima;
-	private String imageURL;	
+	private String image_url;	
 	
 }
