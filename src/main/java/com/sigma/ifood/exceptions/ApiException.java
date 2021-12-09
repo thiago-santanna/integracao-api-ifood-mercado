@@ -10,6 +10,9 @@ import com.sigma.ifood.ifoodMercadoApi.dto.CredentialsDto;
 import com.sigma.ifood.ifoodMercadoApi.dto.PedidoVerificado;
 import com.sigma.ifood.ifoodMercadoApi.models.produto.Produto;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class ApiException extends WebClientException {
 
 	private static final long serialVersionUID = 1L;
@@ -27,7 +30,7 @@ public class ApiException extends WebClientException {
 		
 		ObjectMapper jkObjectMapper = new ObjectMapper();
 		String productJson = jkObjectMapper.writeValueAsString(produtos);
-		System.out.println(productJson);
+		log.error(productJson);
 	}
 	
 	public ApiException(String message, String metodo, List<PedidoVerificado> pedidosVerificado, String flag) throws IOException {
@@ -35,7 +38,7 @@ public class ApiException extends WebClientException {
 		
 		ObjectMapper jkObjectMapper = new ObjectMapper();
 		String productJson = jkObjectMapper.writeValueAsString(pedidosVerificado);
-		System.out.println(productJson);
+		log.error(productJson);
 	}	
 	
 	public ApiException(String message, String metodo, CredentialsDto credenciais) throws IOException {
@@ -43,7 +46,7 @@ public class ApiException extends WebClientException {
 		
 		ObjectMapper jkObjectMapper = new ObjectMapper();
 		String productJson = jkObjectMapper.writeValueAsString(credenciais);
-		System.out.println(productJson);
+		log.error(productJson);
 	}
 	
 

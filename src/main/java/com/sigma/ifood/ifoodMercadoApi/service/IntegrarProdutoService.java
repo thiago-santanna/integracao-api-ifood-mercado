@@ -22,18 +22,21 @@ public class IntegrarProdutoService {
 		try {
 			this.webClientMercado
 			.post()
-			.uri("produtointegracao")
+			.uri("produtointegracao?reset=false")
 			.contentType(MediaType.APPLICATION_JSON)
 			.header("Authorization", accessToken)
 			.bodyValue(produtos)
-			.retrieve()
+			.retrieve()	
+			.onStatus(
+					HttpStatus::is5xxServerError, clinetResponse -> clinetResponse.bodyToMono(String.class).map(
+					body -> new ApiException("Codigo: "+clinetResponse.statusCode().toString() + "\nDetalhes"+ body))
+			)			
 			.onStatus(
 					HttpStatus::is4xxClientError, clinetResponse -> clinetResponse.bodyToMono(String.class).map(
-					body -> new ApiException("Codigo: "+clinetResponse.statusCode().toString() + "\n"+ body))
+					body -> new ApiException("Codigo: "+clinetResponse.statusCode().toString() + "\nDetalhes"+ body))
 			)
 			.bodyToMono(String.class)
-			.block();	
-		
+			.block();			
 		} catch (RuntimeException e) {
 			throw new ApiException(e.getMessage(), "integrarProdutos", produtos);
 		}

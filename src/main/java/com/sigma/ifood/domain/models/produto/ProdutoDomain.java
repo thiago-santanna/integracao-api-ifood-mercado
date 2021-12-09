@@ -53,9 +53,9 @@ public class ProdutoDomain {
 	private BigDecimal valorPromocao;
 	private BigDecimal valorAtacado;
 	private BigDecimal valorCompra;
-	private BigDecimal quantidadeEstoqueAtual;
-	private BigDecimal quantidadeEstoqueMinimo;
-	private BigDecimal quantidadeAtacado;
+	private Integer quantidadeEstoqueAtual;
+	private Integer quantidadeEstoqueMinimo;
+	private Integer quantidadeAtacado;
 	
 	@Column(columnDefinition = "TEXT")
 	private String descricao;
@@ -66,7 +66,7 @@ public class ProdutoDomain {
 	private String plu;
 	private Boolean validadeProxima;
 	
-	@Column(columnDefinition = "varchar(150) default ''", name = "image_url")
+	@Column(name = "image_url", length = 150)
 	private String imageURL;
 	
 }

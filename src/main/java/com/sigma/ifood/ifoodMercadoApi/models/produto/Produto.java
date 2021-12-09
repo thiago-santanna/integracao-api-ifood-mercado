@@ -23,9 +23,9 @@ public class Produto {
 	private BigDecimal valorPromocao;
 	private BigDecimal valorAtacado;
 	private BigDecimal valorCompra;
-	private BigDecimal quantidadeEstoqueAtual;
-	private BigDecimal quantidadeEstoqueMinimo;
-	private BigDecimal quantidadeAtacado;	
+	private Integer quantidadeEstoqueAtual;
+	private Integer quantidadeEstoqueMinimo;
+	private Integer quantidadeAtacado;	
 	private String descricao;
 	private Boolean ativo;
 	private String plu;
