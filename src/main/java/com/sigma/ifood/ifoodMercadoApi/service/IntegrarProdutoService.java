@@ -12,6 +12,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 import com.sigma.ifood.exceptions.ApiException;
 import com.sigma.ifood.ifoodMercadoApi.models.produto.Produto;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
 public class IntegrarProdutoService {
 	
